@@ -99,3 +99,4 @@ Examples:
     interface_box_colors unset    # Reset to default
 EOF
 }
+
