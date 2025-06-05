@@ -3,20 +3,20 @@
 function interface_message() {
 	# Check if argument is provided
 	if [[ -n "$1" ]]; then
-		local input="$1"
+		input="$1"
 	else
-		local input=$(cat)
+		input=$(cat)
 	fi
 	# Display menu based on DIALOG tool
-	case "$DIALOG" in
+	case $DIALOG in
 		"dialog")
-		$DIALOG --title "$TITLE" --msgbox "$input" 0 0 2>&1 >/dev/tty
+		dialog --title "$TITLE" --msgbox "$input" 0 0 2>&1 >/dev/tty
 		;;
 		"whiptail")
 		whiptail --title "$TITLE" --msgbox "$input" 0 0 3>&1 1>&2 2>&3
 		;;
-		"read")
-		echo "Available options:"
+		*)
+		whiptail --title "$TITLE" --msgbox "$input" 0 0 3>&1 1>&2 2>&3
 		;;
 	esac
 }
