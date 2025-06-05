@@ -53,6 +53,7 @@ checkpoint() {
 		mark)  _checkpoint_add "$1" "$2";;
 		reset) _checkpoint_reset;;
 		total) _checkpoint_total;;
+		*)  _checkpoint_help;;
 	esac
 
 	return $exit_code
