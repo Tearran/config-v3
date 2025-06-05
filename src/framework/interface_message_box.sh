@@ -11,7 +11,7 @@ function interface_message() {
 	# Display menu based on DIALOG tool
 	case "$DIALOG" in
 		"dialog")
-		dialog --title "$TITLE" --msgbox "$input" 0 0 2>&1 >/dev/tty
+		dialog --title "$TITLE" --msgbox "$input" 0 0 >/dev/tty 2>&1
 		;;
 		"whiptail")
 		whiptail --title "$TITLE" --msgbox "$input" 0 0 3>&1 1>&2 2>&3
