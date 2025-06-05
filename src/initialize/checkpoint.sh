@@ -44,6 +44,7 @@ _checkpoint_total() {
 }
 
 checkpoint() {
+	local exit_code=$?
 
 	case "$1" in
 
