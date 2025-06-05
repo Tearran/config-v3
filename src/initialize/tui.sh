@@ -15,7 +15,9 @@ initialize_interface() {
 		elif [[ -x "$(command -v dialog)" ]]; then
 			DIALOG="dialog"
 		else
-			die "TUI unavailable"
+			#die "TUI unavailable"
+			echo "TUI unavailable"
+			exit 1
 		fi
 		checkpoint debug "Initialized (TUI) text user interface is ($DIALOG)..."
 		;;
