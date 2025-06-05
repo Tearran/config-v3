@@ -99,7 +99,7 @@ jobs:
         with:
           path: 'config'
 
-      - name: "Run fastfecth"
+      - name: "Run fastfetch"
         run: |
           fastfetch
 
