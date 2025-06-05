@@ -55,7 +55,7 @@ jobs:
              unset RELEASE
              source "${i}"
              if [[ -z "${RELEASE}" ]]; then RELEASE=all; fi
-             # if we speficy releases, we need to loop docker images and use if there is a match
+             # if we specify releases, we need to loop docker images and use if there is a match
              if [[ $RELEASE != all || -z $RELEASE ]]; then
                 for j in ${images[@]}; do
                     elements=($(echo $RELEASE | tr ':' "\n"))
