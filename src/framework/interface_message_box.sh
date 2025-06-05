@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 
 function interface_message() {
+	local input
 	# Check if argument is provided
 	if [[ -n "$1" ]]; then
 		input="$1"
