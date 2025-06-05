@@ -1,4 +1,4 @@
-#!/usr/bin/env bash
+#!/bin/bash
 
 # Usage: interface_box_colors <action> [color_code]
 # Actions: help | set | unset

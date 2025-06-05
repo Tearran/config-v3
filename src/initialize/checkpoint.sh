@@ -1,4 +1,4 @@
-# checkpoint.sh
+#!/bin/bash
 
 _checkpoint_add()
 {
@@ -51,8 +51,9 @@ checkpoint()
 	local exit_code=$?
 
 	case "$1" in
-		debug) _checkpoint_add "$1" "$2";;
+
 		help)  _checkpoint_help;;
+		debug) _checkpoint_add "$1" "$2";;
 		mark)  _checkpoint_add "$1" "$2";;
 		reset) _checkpoint_reset;;
 		total) _checkpoint_total;;
