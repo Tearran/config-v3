@@ -2,7 +2,7 @@
 
 _about_interface_yes_no() {
 	cat <<EOF
-Usage: $0 <message> <next_action>
+Usage: interface_yes_no <message> <next_action>
 	<message>       The message to show in the Yes/No dialog.
 	<next_action>   Callback function to call with result ("No" if cancelled).
 	help            Show this message.
