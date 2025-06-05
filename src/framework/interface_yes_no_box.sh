@@ -3,12 +3,12 @@
 _about_interface_yes_no() {
 	cat <<EOF
 Usage: $0 <message> <next_action>
-  <message>       The message to show in the Yes/No dialog.
-  <next_action>   Callback function to call with result ("No" if cancelled).
-  help            Show this message.
+	<message>       The message to show in the Yes/No dialog.
+	<next_action>   Callback function to call with result ("No" if cancelled).
+	help            Show this message.
 
 Example:
-  interface_yes_no "Are you sure?" _process_input
+	interface_yes_no "Are you sure?" _process_input
 EOF
 }
 
