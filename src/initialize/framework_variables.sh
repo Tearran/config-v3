@@ -4,12 +4,10 @@ initialize_framework_variables() {
 
 	local options="$1"
 	case "$options" in
-
 		help)  _about_variables ;;
 		set)   _set_variables ;;
 		unset) _unset_variables ;;
 		*)     _about_variables ;;
-    
 	esac
 
 }
