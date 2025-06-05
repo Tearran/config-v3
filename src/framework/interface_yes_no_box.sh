@@ -37,16 +37,16 @@ interface_yes_no() {
 		*)
 		for func in "${allowed_functions[@]}"; do
 			if [[ "$func" == "$next_action" ]]; then
-			found=1
-			break
+				found=1
+				break
 			fi
 		done
 
 		if [[ "$found" -eq 1 ]]; then
-			if $DIALOG --yesno "$message" 10 80 3>&1 1>&2 2>&3; then
-			"$next_action"
+			if "$DIALOG" --yesno "$message" 10 80 3>&1 1>&2 2>&3; then
+				"$next_action"
 			else
-			"$next_action" "No"
+				"$next_action" "No"
 			fi
 		else
 			echo "Error: Invalid function"
@@ -58,6 +58,6 @@ interface_yes_no() {
 
 # Example usage: Only run if called directly, not sourced
 if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
-	DIALOG="whiptail"
+	DIALOG="${DIALOG:-whiptail}"
 	interface_yes_no "$1" _process_input
 fi
