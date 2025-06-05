@@ -20,13 +20,22 @@ function interface_menu() {
 	local choice
 	local choice_index
 
-	if [[ "${function_name}" == "help" ]]; then
-		_about_interface_menu
-		exit 0
-	else
-		# Get the help message from the specified function
-		menu_list=$("$function_name" menu)
-	fi
+	case "${function_name}" in
+		"help"|"-h"|"--help"|"")
+			_about_interface_menu
+			exit 0
+			;;
+		*)
+			# Validate that the requested function exists
+			if ! declare -f "$function_name" >/dev/null; then
+				echo "Error: function '$function_name' not found."
+				return 1
+			fi
+
+			# Get the help message from the specified function
+			menu_list=$("$function_name" menu)
+			;;
+	esac
 
 	# Prepare options for the dialog tool based on help message
 	options=()
@@ -68,6 +77,5 @@ function interface_menu() {
 # Example usage: Only run if called directly, not sourced
 if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
 	DIALOG="${DIALOG:-whiptail}"
-	interface_menu "$1"
-
+	interface_menu "$1" "$2"
 fi
