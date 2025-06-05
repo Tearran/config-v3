@@ -15,6 +15,10 @@ EOF
 function interface_menu() {
 	# Check if the function name was provided
 	local function_name="$1"
+	local menu_list
+	local options
+	local choice
+	local choice_index
 
 	if [[ "${function_name}" == "help" ]]; then
 		_about_interface_menu
