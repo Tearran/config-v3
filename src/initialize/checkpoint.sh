@@ -18,7 +18,7 @@ _checkpoint_add()
 _checkpoint_help()
 {
 	echo "
-Usage: ${module_options[checkpoint,feature]} <action> <message>
+Usage: checkpoint <option> <message>
 Where <action> is one of:
 	debug      Show message in debug mode (DEBUG non-zero).
 	help       Show this help screen.
