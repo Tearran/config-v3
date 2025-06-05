@@ -1,5 +1,18 @@
 #!/usr/bin/env bash
 
+
+function _about_interface_message_box() {
+	cat <<EOF
+Usage: interface_message ["message"]
+Examples:
+	interface_message "Your message here"
+	echo "Your message" | interface_message
+	interface_message <<< "Your message"
+EOF
+
+}
+
+
 function interface_message() {
 	local input
 	# Check if argument is provided
@@ -30,16 +43,11 @@ function interface_message() {
 }
 
 
-_about_interface_message_box() {
-	cat <<EOF
-Usage: interface_message ["message"]
-Examples:
-	interface_message "Your message here"
-	echo "Your message" | interface_message
-	interface_message <<< "Your message"
-EOF
-
-}
+# Example usage: Only run if called directly, not sourced
+if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
+	DIALOG="${DIALOG:-whiptail}"
+	interface_message "$1" _process_input
+fi
 
 
 
