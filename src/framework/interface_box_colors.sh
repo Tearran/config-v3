@@ -113,3 +113,10 @@ function _term_colors() {
 	esac
 	echo -e "$color"
 }
+
+# Example usage: Only run if called directly, not sourced
+if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
+	DIALOG="${DIALOG:-whiptail}"
+	interface_box_colors "$@"
+
+fi
