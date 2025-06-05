@@ -1,13 +1,13 @@
 #!/usr/bin/env bash
 
-# Usage: interface_box_colors <action> [color_code]
+# Usage: interface_box_colors <options> [color_code]
 # Options: help | set | unset
 
 interface_box_colors() {
 
-	local action="$1"
+	local options="$1"
 	shift
-	case "$action" in
+	case "$options" in
 		help)  _about_interface_box_colors ;;
 		set)   _set_interface_box_colors "$@" ;;
 		unset) _unset_interface_box_colors ;;

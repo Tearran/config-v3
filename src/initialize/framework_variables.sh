@@ -2,8 +2,8 @@
 
 initialize_framework_variables() {
 
-	local action="$1"
-	case "$action" in
+	local options="$1"
+	case "$options" in
 		help)  _about_variables ;;
 		set)   _set_variables ;;
 		unset) _unset_variables ;;
@@ -39,7 +39,7 @@ _unset_variables() {
 _about_variables() {
 	cat <<EOF
 Module Variable Helper
-Usage: initialize_framework_variables <action>
+Usage: initialize_framework_variables <options>
 Options:
 	help   - Show this help message
 	set    - Set (export) module variables

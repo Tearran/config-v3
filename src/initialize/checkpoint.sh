@@ -18,7 +18,7 @@ _checkpoint_add() {
 _checkpoint_help() {
 	echo "
 Usage: checkpoint <option> <message>
-Where <action> is one of:
+Options:
 	debug      Show message in debug mode (DEBUG non-zero).
 	help       Show this help screen.
 	mark       Show message in UI or debug mode.
