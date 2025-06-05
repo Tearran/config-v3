@@ -36,7 +36,7 @@ _checkpoint_reset()
 	_checkpoint_start=$(date +%s)
 	_checkpoint_time=$_checkpoint_start
 }
-_checkpoint_reset
+
 
 _checkpoint_total()
 {
