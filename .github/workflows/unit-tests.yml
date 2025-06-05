@@ -1,0 +1,162 @@
+name: "Unit tests"
+on:
+  workflow_dispatch:
+  repository_dispatch:
+    types: ["Unit tests"]
+  schedule:
+    - cron: '0 2 * * *'
+  pull_request:
+    types: [opened, reopened, edited, synchronize, review_requested]
+
+env:
+  GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+  PR_NUMBER: ${{ github.event.number }}
+  REPOSITORY: "apt.armbian.com"
+
+concurrency:
+  group: pipeline-pr-${{github.event.pull_request.number}}
+  cancel-in-progress: false
+
+jobs:
+
+  prepare:
+    name: "Armbian configurator unit tests"
+    runs-on: "ubuntu-24.04"
+    outputs:
+      DEPLOYMENT_MATRIX: "${{ steps.json.outputs.DEPLOYMENT_MATRIX }}"
+    steps:
+
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Get changed files
+        id: changed-files
+        uses: tj-actions/changed-files@v45
+        with:
+          files: |
+              tests/*.conf
+
+      - name: "Make JSON ${{ steps.changed-files.outputs.all_changed_files }}"
+        id: json
+        run: |
+
+          delimiter="$(openssl rand -hex 8)"
+          echo "DEPLOYMENT_MATRIX<<${delimiter}" >> "${GITHUB_OUTPUT}"
+          # define OS variants where we can run test install
+          images=("bookworm" "jammy" "noble")
+          # read tests cases
+          if [[ -n "${{ steps.changed-files.outputs.all_changed_files }}" ]]; then
+              tests=($(grep -rwl ${{ steps.changed-files.outputs.all_changed_files }} -e "ENABLED=true" | cut -d":" -f1))
+              else
+              tests=($(grep -rwl tests/*.conf -e "ENABLED=true" | cut -d":" -f1))
+          fi
+          # loop enabled test cases
+          for i in "${tests[@]}"; do
+             unset RELEASE
+             source "${i}"
+             if [[ -z "${RELEASE}" ]]; then RELEASE=all; fi
+             # if we speficy releases, we need to loop docker images and use if there is a match
+             if [[ $RELEASE != all || -z $RELEASE ]]; then
+                for j in ${images[@]}; do
+                    elements=($(echo $RELEASE | tr ':' "\n"))
+                    testid=($(echo $i | cut -d"/" -f2 | cut -d"." -f1))
+                    for SELECTED_RELEASE in "${elements[@]}"; do
+                        if [[ $j == *"${SELECTED_RELEASE}"* ]]; then
+                           echo "{\"package\":\"${i}\",\"name\":\"${TESTNAME}\",\"os\":\"$j\",\"id\":\"$testid\"}"
+                        fi
+                    done
+                done
+             else
+                for j in ${images[@]}; do
+                    testid=($(echo $i | cut -d"/" -f2 | cut -d"." -f1))
+                    echo "{\"package\":\"${i}\",\"name\":\"${TESTNAME}\",\"os\":\"$j\",\"id\":\"$testid\"}"
+                done
+             fi
+          done | jq -s >> $GITHUB_OUTPUT
+          echo "${delimiter}" >> "${GITHUB_OUTPUT}"
+
+  gradle:
+    needs: prepare
+    if: ${{ needs.prepare.outputs.DEPLOYMENT_MATRIX != '[]' }}
+    strategy:
+      fail-fast: false
+      max-parallel: 32
+      matrix:
+        server: ${{ fromJSON(needs.prepare.outputs.DEPLOYMENT_MATRIX) }}
+    name: "${{ matrix.server.name }} (${{ matrix.server.os }})"
+    runs-on: "${{ matrix.server.os }}"
+    timeout-minutes: 15
+    steps:
+
+      - name: "Install dependencies: fastfetch"
+        run: |
+          if lsof /var/lib/dpkg/lock >/dev/null 2>&1; then reboot; fi
+          sudo dpkg --configure -a
+          sudo apt-get -y install fastfetch
+
+      - name: "Checkout Armbian configuration tool"
+        uses: actions/checkout@v4
+        with:
+          path: 'config'
+
+      - name: "Run fastfecth"
+        run: |
+          fastfetch
+
+      - name: "Run unit test: ${{ matrix.server.name }} "
+        run: |
+
+          export TERM=linux
+          rm -rf test; mkdir -p test
+          cd config
+          # assemble armbian config
+          bash tools/config-assemble.sh -p
+          # read test
+          source "${{ matrix.server.package }}"
+
+          # Test case execution
+          start_time=$(date +%s)
+          figlet  "RUN TEST CASE"
+          testcase # function inside test script
+          finish_time=$(date +%s)
+
+          # Generate table entry
+          echo "|${{ matrix.server.os }}| ${{ matrix.server.name }} | $((finish_time - start_time)) sec |" > ../test/${{ matrix.server.id }}-${{ matrix.server.os }}
+
+      - name: "Run fastfecth"
+        run: |
+          fastfetch
+
+      - name: "Upload test summary"
+        uses: actions/upload-artifact@v4
+        with:
+          name: test-${{ matrix.server.id }}-${{ matrix.server.os }}
+          path: test
+          if-no-files-found: ignore
+
+  stop:
+    name: "Merge test artifacts"
+    if: always()
+    needs: gradle
+    runs-on: ubuntu-24.04
+    steps:
+
+      - name: Download All Artifacts
+        uses: actions/download-artifact@v4
+        with:
+          path: test
+          pattern: test-*
+          merge-multiple: true
+
+      - name: Install
+        run: |
+
+          echo "# Succesful tests:" >> $GITHUB_STEP_SUMMARY
+          echo "|Release|Test name|Duration|" >> $GITHUB_STEP_SUMMARY
+          echo "|:---|:---|---:|" >> $GITHUB_STEP_SUMMARY
+          cat test/* | sed '$ s/.$//' >> $GITHUB_STEP_SUMMARY
+
+      - uses: geekyeggo/delete-artifact@v5
+        with:
+          name: |
+            test-*
