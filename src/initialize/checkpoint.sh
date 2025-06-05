@@ -1,7 +1,6 @@
 #!/usr/bin/env bash
 
-_checkpoint_add()
-{
+_checkpoint_add() {
 	local type="$1" msg="$2"
 
 	if [[ -n "$DEBUG" ]]; then
@@ -15,8 +14,7 @@ _checkpoint_add()
 	fi
 }
 
-_checkpoint_help()
-{
+_checkpoint_help() {
 	echo "
 Usage: checkpoint <option> <message>
 Where <action> is one of:
@@ -32,22 +30,19 @@ mode is active (the DEBUG env var is non-zero).
 "
 }
 
-_checkpoint_reset()
-{
+_checkpoint_reset() {
 	_checkpoint_start=$(date +%s)
 	_checkpoint_time=$_checkpoint_start
 }
 
 
-_checkpoint_total()
-{
+_checkpoint_total() {
 	_checkpoint_time=$_checkpoint_start
 	_checkpoint_add "debug" "TOTAL time elapsed"
 	_checkpoint_reset
 }
 
-checkpoint()
-{
+checkpoint() {
 	local exit_code=$?
 
 	case "$1" in

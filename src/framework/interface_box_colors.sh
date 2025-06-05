@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 # Usage: interface_box_colors <action> [color_code]
-# options: help | set | unset
+# Options: help | set | unset
 
 interface_box_colors() {
 
