@@ -15,15 +15,31 @@ function interface_message() {
 		"whiptail")
 		whiptail --title "$TITLE" --msgbox "$input" 0 0 3>&1 1>&2 2>&3
 		;;
+		"read")
+		echo "$input"
+		;;
+		"help")
+		_about_interface_message_box
+		;;
 		*)
-		whiptail --title "$TITLE" --msgbox "$input" 0 0 3>&1 1>&2 2>&3
+		echo "$input"
+		return 1
 		;;
 	esac
 }
 
-# for terminal use
-# interface_message "$@"
 
-# for pipes
-# echo "string" | interface_message
-# interface_message <<< "hello"
+_about_interface_message_box() {
+	cat <<EOF
+Usage: interface_message <std pipe||"$1">
+Examples:
+	interface_message "$1"
+	echo "string" | interface_message
+	interface_message <<< "hello"
+EOF
+
+}
+# for termnal use
+ interface_message "$@"
+
+

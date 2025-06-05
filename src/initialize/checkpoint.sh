@@ -16,7 +16,7 @@ _checkpoint_add() {
 }
 
 _checkpoint_help() {
-	echo "
+	cat <<EOF
 Usage: checkpoint <option> <message>
 Options:
 	debug      Show message in debug mode (DEBUG non-zero).
@@ -28,7 +28,7 @@ Options:
 The 'debug' command will show time elapsed since the previous checkpoint after
 the <message>. The 'mark' command will also show the elapsed time if the debug
 mode is active (the DEBUG env var is non-zero).
-"
+EOF
 }
 
 _checkpoint_reset() {

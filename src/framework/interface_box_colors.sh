@@ -99,7 +99,7 @@ _term_colors() {
 
 _about_interface_box_colors() {
 	cat <<EOF
-interface_box_colors module
+
 Usage: interface_box_colors <option> [color_code]
 Options:
 	help       - Show this help message
