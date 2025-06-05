@@ -3,9 +3,9 @@
 function interface_message() {
 	# Check if argument is provided
 	if [[ -n "$1" ]]; then
-		input="$1"
+		local input="$1"
 	else
-		input=$(cat)
+		local input=$(cat)
 	fi
 	# Display menu based on DIALOG tool
 	case $DIALOG in
