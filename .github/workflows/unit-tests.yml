@@ -151,7 +151,7 @@ jobs:
       - name: Install
         run: |
 
-          echo "# Succesful tests:" >> $GITHUB_STEP_SUMMARY
+          echo "# Successful tests:" >> $GITHUB_STEP_SUMMARY
           echo "|Release|Test name|Duration|" >> $GITHUB_STEP_SUMMARY
           echo "|:---|:---|---:|" >> $GITHUB_STEP_SUMMARY
           cat test/* | sed '$ s/.$//' >> $GITHUB_STEP_SUMMARY
