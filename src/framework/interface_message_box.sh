@@ -39,7 +39,6 @@ Examples:
 EOF
 
 }
-# for termnal use
- interface_message "$@"
+
 
 
