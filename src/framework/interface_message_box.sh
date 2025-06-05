@@ -32,11 +32,11 @@ function interface_message() {
 
 _about_interface_message_box() {
 	cat <<EOF
-Usage: interface_message <std pipe||"$1">
+Usage: interface_message ["message"]
 Examples:
-	interface_message "$1"
-	echo "string" | interface_message
-	interface_message <<< "hello"
+	interface_message "Your message here"
+	echo "Your message" | interface_message
+	interface_message <<< "Your message"
 EOF
 
 }
