@@ -1,5 +1,6 @@
 #!/usr/bin/env bash
 
+
 function _about_interface_yes_no() {
 	cat <<EOF
 Usage: interface_yes_no <message> <next_action>
@@ -12,6 +13,7 @@ Example:
 EOF
 }
 
+
 function _process_input() {
 	local input="${1:-}"
 	if [ "$input" = "No" ]; then
@@ -22,6 +24,7 @@ function _process_input() {
 		# Place your logic here.
 	fi
 }
+
 
 function interface_yes_no() {
 	local message="$1"
@@ -55,6 +58,7 @@ function interface_yes_no() {
 		;;
 	esac
 }
+
 
 # Example usage: Only run if called directly, not sourced
 if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then

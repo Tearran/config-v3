@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 
-function _about_interface_message_box() {
+function _about_interface_message() {
 	cat <<EOF
 Usage: interface_message ["message"]
 Examples:
@@ -33,7 +33,7 @@ function interface_message() {
 		echo "$input"
 		;;
 		"help")
-		_about_interface_message_box
+		_about_interface_message
 		;;
 		*)
 		echo "$input"
@@ -48,6 +48,3 @@ if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
 	DIALOG="${DIALOG:-whiptail}"
 	interface_message "$1"
 fi
-
-
-

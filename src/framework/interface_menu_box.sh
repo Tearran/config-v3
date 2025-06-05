@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 
-function _about_interface_menu_box() {
+function _about_interface_menu() {
 	cat <<EOF
 Usage: interface_menu <module name>
 Examples:
@@ -17,7 +17,7 @@ function interface_menu() {
 	local function_name="$1"
 
 	if [[ "${function_name}" == "help" ]]; then
-		_about_interface_menu_box
+		_about_interface_menu
 		exit 0
 	else
 		# Get the help message from the specified function
