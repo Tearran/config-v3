@@ -8,6 +8,7 @@ interface_box_colors() {
 	local options="$1"
 	shift
 	case "$options" in
+
 		help)  _about_interface_box_colors ;;
 		set)   _set_interface_box_colors "$@" ;;
 		unset) _unset_interface_box_colors ;;
