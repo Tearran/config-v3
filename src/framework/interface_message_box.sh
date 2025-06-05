@@ -8,7 +8,7 @@ function interface_message() {
 		local input=$(cat)
 	fi
 	# Display menu based on DIALOG tool
-	case $DIALOG in
+	case "$DIALOG" in
 		"dialog")
 		$DIALOG --title "$TITLE" --msgbox "$input" 0 0 2>&1 >/dev/tty
 		;;
