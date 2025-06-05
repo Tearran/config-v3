@@ -11,7 +11,7 @@ function interface_message() {
 	# Display menu based on DIALOG tool
 	case "$DIALOG" in
 		"dialog")
-		dialog --title "$TITLE" --msgbox "$input" 0 0 >/dev/tty 2>&1
+		dialog --title "$TITLE" --msgbox "$input" 0 0 2>&1 >/dev/tty
 		;;
 		"whiptail")
 		whiptail --title "$TITLE" --msgbox "$input" 0 0 3>&1 1>&2 2>&3
@@ -32,11 +32,11 @@ function interface_message() {
 
 _about_interface_message_box() {
 	cat <<EOF
-Usage: interface_message ["message"]
+Usage: interface_message <std pipe||"$1">
 Examples:
-	interface_message "Your message here"
-	echo "Your message" | interface_message
-	interface_message <<< "Your message"
+	interface_message "$1"
+	echo "string" | interface_message
+	interface_message <<< "hello"
 EOF
 
 }
