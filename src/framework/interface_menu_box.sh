@@ -25,7 +25,7 @@ function interface_menu() {
 	# Prepare options for the dialog tool based on help message
 	options=()
 		while IFS= read -r line; do
-		if [[ $line =~ ^[[:space:]]*([a-zA-Z0-9_-]+)[[:space:]]*-\s*(.*)$ ]]; then
+		if [[ $line =~ ^[[:space:]]*([a-zA-Z0-9_-]+)[[:space:]]*-[[:space:]]*(.*)$ ]]; then
 			options+=("${BASH_REMATCH[1]}" "  -  ${BASH_REMATCH[2]}")
 		fi
 		done <<< "$help_message"
