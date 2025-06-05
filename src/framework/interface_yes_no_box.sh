@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 
-_about_interface_yes_no() {
+
+function _about_interface_yes_no() {
 	cat <<EOF
 Usage: interface_yes_no <message> <next_action>
 	<message>       The message to show in the Yes/No dialog.
@@ -12,7 +13,8 @@ Example:
 EOF
 }
 
-_process_input() {
+
+function _process_input() {
 	local input="${1:-}"
 	if [ "$input" = "No" ]; then
 		echo "User canceled. Exiting."
@@ -23,7 +25,8 @@ _process_input() {
 	fi
 }
 
-interface_yes_no() {
+
+function interface_yes_no() {
 	local message="$1"
 	local next_action="$2"
 	local allowed_functions=("_process_input")
@@ -55,6 +58,7 @@ interface_yes_no() {
 		;;
 	esac
 }
+
 
 # Example usage: Only run if called directly, not sourced
 if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then

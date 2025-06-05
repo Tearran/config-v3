@@ -1,9 +1,22 @@
 #!/usr/bin/env bash
 
-# Usage: interface_box_colors <options> [color_code]
-# Options: help | set | unset
 
-interface_box_colors() {
+function _about_interface_box_colors() {
+	cat <<EOF
+
+Usage: interface_box_colors <option> [color_code]
+Options:
+	help       - Show this help message
+	set        - Set interface colors for dialog/whiptail (requires color_code)
+	unset      - Reset interface colors to default
+Examples:
+	interface_box_colors set 2    # Set green background
+	interface_box_colors unset    # Reset to default
+EOF
+}
+
+
+function interface_box_colors() {
 
 	local options="$1"
 	shift
@@ -17,7 +30,8 @@ interface_box_colors() {
 
 }
 
-_set_interface_box_colors() {
+
+function _set_interface_box_colors() {
 
 	local color_code="$1"
 	if [ -z "$color_code" ]; then
@@ -35,7 +49,8 @@ _set_interface_box_colors() {
 
 }
 
-_unset_interface_box_colors() {
+
+function _unset_interface_box_colors() {
 
 	# Reset colors for both dialog and whiptail
 	if [ "$DIALOG" = "whiptail" ] || [ "$DIALOG" = "dialog" ]; then
@@ -53,7 +68,8 @@ _unset_interface_box_colors() {
 
 }
 
-_newt_colors() {
+
+function _newt_colors() {
 
 	local color_code="$1"
 	local color
@@ -74,7 +90,8 @@ _newt_colors() {
 
 }
 
-_term_colors() {
+
+function _term_colors() {
 
 	local color_code="$1"
 	local color
@@ -97,17 +114,9 @@ _term_colors() {
 	echo -e "$color"
 }
 
-_about_interface_box_colors() {
-	cat <<EOF
+# Example usage: Only run if called directly, not sourced
+if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
+	DIALOG="${DIALOG:-whiptail}"
+	interface_box_colors "$@"
 
-Usage: interface_box_colors <option> [color_code]
-Options:
-	help       - Show this help message
-	set        - Set interface colors for dialog/whiptail (requires color_code)
-	unset      - Reset interface colors to default
-Examples:
-	interface_box_colors set 2    # Set green background
-	interface_box_colors unset    # Reset to default
-EOF
-}
-
+fi
