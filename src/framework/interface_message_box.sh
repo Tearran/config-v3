@@ -21,7 +21,7 @@ function interface_message() {
 	esac
 }
 
-# for termnal use
+# for terminal use
 # interface_message "$@"
 
 # fpr pipes
