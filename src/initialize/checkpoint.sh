@@ -1,14 +1,13 @@
 #!/bin/bash
-
 _checkpoint_add()
 {
 	local type="$1" msg="$2"
 
 	if [[ -n "$DEBUG" ]]; then
-		local time=$(date +%s)
-		printf "%-30s %4d sec\n" "$msg" $((time - _checkpoint_time))
-		_checkpoint_time=$time
-
+		local now
+		now=$(date +%s)
+		printf "%-30s %4d sec\n" "$msg" $((now - _checkpoint_time))
+		_checkpoint_time=$now
 	elif [[ -n "$UXMODE" && "$type" == mark ]]; then
 		_checkpoint_time=$(date +%s)
 		echo "$msg"
