@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 initialize_framework_variables() {
 

@@ -1,4 +1,5 @@
 #!/bin/bash
+
 _checkpoint_add()
 {
 	local type="$1" msg="$2"
