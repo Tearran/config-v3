@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-about_interface_info_box() {
+_about_interface_info_box() {
     cat <<EOF
 Usage: interface_info_box
 
@@ -15,12 +15,12 @@ EOF
 
 interface_info_box() {
     # Help flag: show about if -h or --help is the first argument
-    case "$1" in
-        "-h"|"help")
-            _about_interface_info_box
-            return 0
-            ;;
-    esac
+	case "$1" in
+		-h|--help|help)
+		_about_interface_info_box
+		return 1
+		;;
+	esac
 
 	local input
 	local TITLE="$TITLE"
@@ -49,6 +49,5 @@ interface_info_box() {
 if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
 	DIALOG="${DIALOG:-whiptail}"
 	TITLE="${TITLE:-$DIALOG}"
-	# use interface_info_box "$(sudo apt-cash search browser)"
-	interface_info_box <<< "$@"
+	interface_info_box "$@"
 fi
