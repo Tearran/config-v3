@@ -46,7 +46,7 @@ function interface_message() {
 # Example usage: Only run if called directly, not sourced
 if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
 	DIALOG="${DIALOG:-whiptail}"
-	interface_message "$1" _process_input
+	interface_message "$1"
 fi
 
 
