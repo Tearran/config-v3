@@ -6,6 +6,7 @@ _checkpoint_add() {
 	if [[ -n "$DEBUG" ]]; then
 		local now
 		now=$(date +%s)
+		: "${_checkpoint_time:=$now}"  # Initialize if unset
 		printf "%-30s %4d sec\n" "$msg" $((now - _checkpoint_time))
 		_checkpoint_time=$now
 	elif [[ -n "$UXMODE" && "$type" == mark ]]; then
