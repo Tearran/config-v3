@@ -77,5 +77,5 @@ function interface_menu() {
 # Example usage: Only run if called directly, not sourced
 if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
 	DIALOG="${DIALOG:-whiptail}"
-	interface_menu "$1" "$2"
+	interface_menu "$1"
 fi
