@@ -24,6 +24,6 @@ function interface_message() {
 # for terminal use
 # interface_message "$@"
 
-# fpr pipes
+# for pipes
 # echo "string" | interface_message
 # interface_message <<< "hello"
