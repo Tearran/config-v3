@@ -1,4 +1,5 @@
 reviews:
+  auto_review: false
   path_instructions:
     - path: "src/**/*.sh"
       instructions: "These are shell module files that are sourced by the main script."
