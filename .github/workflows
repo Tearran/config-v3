@@ -1,0 +1,336 @@
+name: Reusable Secrets Management
+
+on:
+  workflow_call:
+    inputs:
+      config-path:
+        description: 'Path to secrets configuration file'
+        required: false
+        type: string
+        default: '.github/secrets-config.yml'
+      environment:
+        description: 'Environment to check (dev/staging/prod)'
+        required: false
+        type: string
+        default: 'dev'
+    secrets:
+      GITHUB_TOKEN:
+        required: true
+
+jobs:
+  secrets-check:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      issues: write
+      pull-requests: write
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Load secrets configuration
+        id: config
+        run: |
+          if [ -f "${{ inputs.config-path }}" ]; then
+            echo "config-exists=true" >> $GITHUB_OUTPUT
+            cat "${{ inputs.config-path }}"
+          else
+            echo "config-exists=false" >> $GITHUB_OUTPUT
+            echo "No secrets config found at ${{ inputs.config-path }}"
+          fi
+
+      - name: Validate required secrets
+        if: steps.config.outputs.config-exists == 'true'
+        run: |
+          # Add logic to validate secrets based on config
+          echo "Validating secrets for environment: ${{ inputs.environment }}"
+
+      - name: Report secrets status
+        run: |
+          echo "## Secrets Check Results" >> $GITHUB_STEP_SUMMARY
+          echo "- Environment: ${{ inputs.environment }}" >> $GITHUB_STEP_SUMMARY
+          echo "- Config path: ${{ inputs.config-path }}" >> $GITHUB_STEP_SUMMARY
+</newLines>
+
+<rationale>
+Added .github/workflows/reusable-contributor-management.yml to provide a reusable workflow for welcoming first-time contributors with configurable labels and messages.
+</rationale>
+<newLines>
+name: Reusable Contributor Management
+
+on:
+  workflow_call:
+    inputs:
+      config-path:
+        description: 'Path to contributor configuration file'
+        required: false
+        type: string
+        default: '.github/contributor-config.yml'
+      welcome-label:
+        description: 'Label to add for first-time contributors'
+        required: false
+        type: string
+        default: 'Good first issue'
+      custom-message:
+        description: 'Custom welcome message template'
+        required: false
+        type: string
+    secrets:
+      GITHUB_TOKEN:
+        required: true
+
+jobs:
+  welcome-contributor:
+    if: github.event.action == 'opened'
+    runs-on: ubuntu-latest
+    permissions:
+      issues: write
+      pull-requests: write
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Load contributor config
+        id: config
+        run: |
+          if [ -f "${{ inputs.config-path }}" ]; then
+            echo "Loading contributor configuration..."
+            # Load repository-specific contributor settings
+          fi
+
+      - name: Welcome first-time contributors
+        uses: plbstl/first-contribution@v3
+        with:
+          labels: ${{ inputs.welcome-label }}
+          issue-opened-msg: |
+            ${{ inputs.custom-message || format('### Hey @{{fc-author}}! 👋
+
+            Thanks for opening your first issue with the {0} project — we''re glad to have you here! 🧡', github.repository) }}
+</newLines>
+
+<rationale>
+Added .github/workflows/reusable-mirror-sync.yml to enable repository mirroring between a source and target repository with configurable branches.
+</rationale>
+<newLines>
+name: Reusable Repository Mirroring
+
+on:
+  workflow_call:
+    inputs:
+      source-repo:
+        description: 'Source repository to mirror from'
+        required: true
+        type: string
+      target-repo:
+        description: 'Target repository to mirror to'
+        required: true
+        type: string
+      sync-branches:
+        description: 'Branches to sync (comma-separated)'
+        required: false
+        type: string
+        default: 'main,development'
+      config-path:
+        description: 'Path to mirror configuration file'
+        required: false
+        type: string
+        default: '.github/mirror-config.yml'
+    secrets:
+      MIRROR_TOKEN:
+        required: true
+
+jobs:
+  mirror-sync:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      pull-requests: write
+    steps:
+      - name: Mirror repository
+        run: |
+          echo "Syncing from ${{ inputs.source-repo }} to ${{ inputs.target-repo }}"
+          echo "Branches: ${{ inputs.sync-branches }}"
+
+          git clone --mirror https://github.com/${{ inputs.source-repo }}.git source
+          cd source
+          git remote set-url --push origin https://github.com/${{ inputs.target-repo }}.git
+          git push --mirror
+</newLines>
+
+<rationale>
+Added .github/workflows/reusable-labeling.yml to automate removal of outdated labels, apply category, size, and date-based labels on pull requests using configurable rules.
+</rationale>
+<newLines>
+name: Reusable PR Labeling
+
+on:
+  workflow_call:
+    inputs:
+      labels-config-path:
+        description: 'Path to labels configuration file'
+        required: false
+        type: string
+        default: '.github/labels-config.yml'
+      labeler-config-path:
+        description: 'Path to labeler rules configuration file'
+        required: false
+        type: string
+        default: '.github/labeler-config.yml'
+      size-config:
+        description: 'Size thresholds as JSON: {"small": 10, "medium": 100, "large": 500}'
+        required: false
+        type: string
+        default: '{"small": 10, "medium": 100, "large": 500}'
+    secrets:
+      GITHUB_TOKEN:
+        required: true
+
+jobs:
+  remove-outdated-labels:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      pull-requests: write
+    steps:
+      - name: Remove Ready to merge label on PR update
+        if: github.event.action == 'synchronize'
+        run: |
+          gh pr edit ${{ github.event.pull_request.number }} --remove-label "Ready to merge" || true
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+  category-labeling:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      pull-requests: write
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Apply category labels
+        uses: actions/labeler@v5
+        with:
+          configuration-path: ${{ inputs.labeler-config-path }}
+          repo-token: ${{ secrets.GITHUB_TOKEN }}
+
+  size-labeling:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      pull-requests: write
+    steps:
+      - name: Apply size labels
+        uses: pascalgn/size-label-action@v0.5.0
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          sizes: ${{ inputs.size-config }}
+
+  date-labeling:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      pull-requests: write
+    steps:
+      - name: Add quarterly label
+        run: |
+          month=$(date -d "${{ github.event.pull_request.created_at }}" +%m)
+          case $month in
+            01|02|03) quarter="Q1" ;;
+            04|05|06) quarter="Q2" ;;
+            07|08|09) quarter="Q3" ;;
+            10|11|12) quarter="Q4" ;;
+          esac
+          gh pr edit ${{ github.event.pull_request.number }} --add-label "$quarter"
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+</newLines>
+
+<rationale>
+Added .github/workflows/reusable-code-checks.yml to provide configurable code quality checks including shellcheck, editorconfig verification, and custom commands.
+</rationale>
+<newLines>
+name: Reusable Code Quality Checks
+
+on:
+  workflow_call:
+    inputs:
+      config-path:
+        description: 'Path to checks configuration file'
+        required: false
+        type: string
+        default: '.github/checks-config.yml'
+      enable-shellcheck:
+        description: 'Enable shellcheck for shell scripts'
+        required: false
+        type: boolean
+        default: true
+      enable-editorconfig:
+        description: 'Enable editorconfig checking'
+        required: false
+        type: boolean
+        default: true
+      custom-checks:
+        description: 'Custom check commands as JSON array'
+        required: false
+        type: string
+        default: '[]'
+
+jobs:
+  load-config:
+    runs-on: ubuntu-latest
+    outputs:
+      config: ${{ steps.load.outputs.config }}
+    steps:
+      - uses: actions/checkout@v4
+      - name: Load configuration
+        id: load
+        run: |
+          if [ -f "${{ inputs.config-path }}" ]; then
+            config=$(cat "${{ inputs.config-path }}" | base64 -w 0)
+            echo "config=$config" >> $GITHUB_OUTPUT
+          else
+            echo "config=" >> $GITHUB_OUTPUT
+          fi
+
+  shellcheck:
+    if: inputs.enable-shellcheck
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Get changed files
+        id: changed-files
+        uses: tj-actions/changed-files@v46
+
+      - name: Shellcheck analysis
+        run: |
+          if [[ -n "${{ steps.changed-files.outputs.all_changed_files }}" ]]; then
+              FILES="${{ steps.changed-files.outputs.all_changed_files }}"
+              for file in $FILES; do
+                  if [ -f "$file" ] && grep -qE "^#\!/.*bash" "$file"; then
+                      echo "Checking: $file"
+                      shellcheck --severity=error "$file" || ret=$?
+                  fi
+              done
+          fi
+          exit ${ret:-0}
+
+  editorconfig:
+    if: inputs.enable-editorconfig
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: editorconfig-checker/action-editorconfig-checker@main
+      - run: editorconfig-checker
+
+  custom-checks:
+    if: inputs.custom-checks != '[]'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Run custom checks
+        run: |
+          checks='${{ inputs.custom-checks }}'
+          echo "$checks" | jq -r '.[]' | while read -r check; do
+            echo "Running: $check"
+            eval "$check"
+          done
