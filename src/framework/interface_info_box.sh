@@ -1,20 +1,20 @@
 #!/usr/bin/env bash
 
 _about_interface_info_box() {
-    cat <<EOF
+	cat <<EOF
 Usage: interface_info_box
 
 Reads lines from stdin and displays them in a rolling infobox using whiptail/dialog.
 
 Examples:
-  some_command | interface_info_box
-  echo "Hello" | interface_info_box
-  interface_info_box -h
+	some_command | interface_info_box
+	echo "Hello" | interface_info_box
+	interface_info_box -h|--help|help
 EOF
 }
 
 interface_info_box() {
-    # Help flag: show about if -h or --help is the first argument
+	# Help flag: show about if -h or --help is the first argument
 	case "$1" in
 		-h|--help|help)
 		_about_interface_info_box
