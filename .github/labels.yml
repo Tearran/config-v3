@@ -1,0 +1,17 @@
+name: Label Management
+on:
+  pull_request:
+    types:
+      - opened
+      - reopened
+      - synchronize
+
+jobs:
+  labeling:
+    uses: your-org/reusable-workflows/.github/workflows/reusable-labeling.yml@main
+    with:
+      labels-config-path: .github/labels-config.yml
+      labeler-config-path: .github/labeler-config.yml
+      size-config: '{"small":10,"medium":100,"large":500}'
+    secrets:
+      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
