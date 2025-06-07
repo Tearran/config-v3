@@ -15,7 +15,7 @@ _merge_metadata_arrays() {
 # Output Markdown table for each module/helper
 _metadata_md_list() {
 	local -n options_array="$1"
-	declare -A seen_sections=()
+	local -A seen_sections=()
 
 	# Collect all section names (prefix before the first comma)
 	for key in "${!options_array[@]}"; do
