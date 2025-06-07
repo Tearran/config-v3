@@ -4,8 +4,6 @@ reviews:
      - path: "src/**/*.sh"
       instructions: |
         These are shell module files that are sourced by the main script.
-
-        **Shell script review checklist:**
         - Proper variable quoting
         - Portable shell features
         - Security considerations
