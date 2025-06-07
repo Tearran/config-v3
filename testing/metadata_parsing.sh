@@ -1,7 +1,5 @@
 #!/usr/bin/env bash
 
-. ./lib/module_options_arrays.sh
-
 declare -A module_options
 
 _merge_metadata_arrays() {
@@ -42,7 +40,7 @@ _metadata_md_list() {
 }
 
 if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
-	_merge_metadata_arrays framework_options software_options software_helpers_options
-	_metadata_md_list module_options > ./module_options_help.md
-	echo "Wrote Markdown help to ./module_options_help.md"
+	. ./lib/module_options_arrays.sh
+	_merge_metadata_arrays framework_options framework_helpers
+	_metadata_md_list module_options
 fi

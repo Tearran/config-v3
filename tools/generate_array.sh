@@ -15,72 +15,72 @@ required_helper_keys=(description extend_disc parent group)
 
 # Helper: emit a finished section
 emit_section() {
-    local section="$1"
-    declare -n mapref="$2"
-    local parent="${mapref[parent]:-}"
-    local group="${mapref[group]:-}"
+	local section="$1"
+	declare -n mapref="$2"
+	local parent="${mapref[parent]:-}"
+	local group="${mapref[group]:-}"
 
-    # Skip if section or parent is missing
-    [[ -z "$section" || -z "$parent" || -z "$group" ]] && return
+	# Skip if section or parent is missing
+	[[ -z "$section" || -z "$parent" || -z "$group" ]] && return
 
-    # If helper, check required keys
-    if [[ "$section" == _* ]]; then
-        for req in "${required_helper_keys[@]}"; do
-            if [[ -z "${mapref[$req]:-}" ]]; then
-                echo "Error: Helper section [$section] missing required key: $req" >&2
-                exit 1
-            fi
-        done
-        arr="${parent}_helpers"
-    else
-        arr="${parent}_options"
-    fi
+	# If helper, check required keys
+	if [[ "$section" == _* ]]; then
+		for req in "${required_helper_keys[@]}"; do
+		if [[ -z "${mapref[$req]:-}" ]]; then
+			echo "Error: Helper section [$section] missing required key: $req" >&2
+			exit 1
+		fi
+		done
+		arr="${parent}_helpers"
+	else
+		arr="${parent}_options"
+	fi
 
-    # Generate unique id: first 3 uppercase chars of group, padded 3-digit counter
-    local group_key=$(echo "$group" | tr '[:lower:]' '[:upper:]' | cut -c1-3)
-    group_counts["$group_key"]=$(( ${group_counts["$group_key"]:-0} + 1 ))
-    local id_num=$(printf "%03d" "${group_counts["$group_key"]}")
-    local unique_id="${group_key}${id_num}"
+	# Generate unique id: first 3 uppercase chars of group, padded 3-digit counter
+	local group_key=$(echo "$group" | tr '[:lower:]' '[:upper:]' | cut -c1-3)
+	group_counts["$group_key"]=$(( ${group_counts["$group_key"]:-0} + 1 ))
+	local id_num=$(printf "%03d" "${group_counts["$group_key"]}")
+	local unique_id="${group_key}${id_num}"
 
-    mapref["unique_id"]="$unique_id"
+	mapref["unique_id"]="$unique_id"
 
-    for key in "${!mapref[@]}"; do
-        array_entries["$arr"]+=$'\n'"${arr}[${section},${key}]=\"${mapref[$key]}\""
-    done
+	for key in "${!mapref[@]}"; do
+		array_entries["$arr"]+=$'\n'"${arr}[${section},${key}]=\"${mapref[$key]}\""
+	done
 }
 
-# Process each .conf file in SRC_ROOT
+	# Process each .conf file in SRC_ROOT
 for conf in "$SRC_ROOT"/*/*.conf; do
-    [[ -e "$conf" ]] || continue
-    section=""
-    declare -A section_kv=()
+	[[ -e "$conf" ]] || continue
+	section=""
+	declare -A section_kv=()
 
-    while IFS='=' read -r key value || [[ -n "$key" ]]; do
-        # Section header: [section]
-        if [[ "$key" =~ ^\[(.*)\]$ ]]; then
-            emit_section "$section" section_kv
-            section="${BASH_REMATCH[1]}"
-            section_kv=()
-            continue
-        fi
-        # Skip comments and blank lines
-        [[ "$key" =~ ^#.*$ || -z "$key" ]] && continue
+	while IFS='=' read -r key value || [[ -n "$key" ]]; do
+		# Section header: [section]
+		if [[ "$key" =~ ^\[(.*)\]$ ]]; then
+		emit_section "$section" section_kv
+		section="${BASH_REMATCH[1]}"
+		section_kv=()
+		continue
+		fi
+		# Skip comments and blank lines
+		[[ "$key" =~ ^#.*$ || -z "$key" ]] && continue
 
-        section_kv["$key"]="$value"
-    done < "$conf"
+		section_kv["$key"]="$value"
+	done < "$conf"
 
-    # Emit last section in file
-    emit_section "$section" section_kv
+	# Emit last section in file
+	emit_section "$section" section_kv
 done
 
 {
-    echo -e "######## Auto-generated. Do not edit. ########\n"
-    for arr in $(printf "%s\n" "${!array_entries[@]}" | sort); do
-        echo -e "######## start $arr ########\n#"
-        echo "declare -A $arr"
-        echo "${array_entries[$arr]}"
-        echo -e "#\n######## finish $arr ########\n"
-    done
+	echo -e "######## Auto-generated. Do not edit. ########\n"
+	for arr in $(printf "%s\n" "${!array_entries[@]}" | sort); do
+		echo -e "######## start $arr ########\n#"
+		echo "declare -A $arr"
+		echo "${array_entries[$arr]}"
+		echo -e "#\n######## finish $arr ########\n"
+	done
 } > "$OUT_FILE"
 
 echo "Wrote generated options arrays to $OUT_FILE"
