@@ -110,4 +110,4 @@ jobs:
         uses: PauMAVA/add-remove-label-action@v1.0.3
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-           add: "${{ env.LABEL }}"
+          add: "${{ env.LABEL }}"
