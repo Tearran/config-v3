@@ -12,7 +12,7 @@ initialize_framework_variables() {
 
 }
 
-_set_variables() {
+_set_paths() {
 
 	export SCRIPT_PATH="${BASH_SOURCE[0]}"
 	export SCRIPT_NAME="$(basename "${BASH_SOURCE[0]}")"
@@ -25,7 +25,7 @@ _set_variables() {
 
 }
 
-_unset_variables() {
+_unset_paths() {
 
 	unset SCRIPT_PATH
 	unset SCRIPT_NAME
@@ -39,7 +39,7 @@ _unset_variables() {
 _about_variables() {
 	cat <<EOF
 Module Variable Helper
-Usage: initialize_framework_variables <options>
+Usage: initialize_paths <options>
 Options:
 	help   - Show this help message
 	set    - Set (export) module variables
