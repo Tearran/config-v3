@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-initialize_paths() {
+initialize_framework_variables() {
 
 	local options="$1"
 	case "$options" in
