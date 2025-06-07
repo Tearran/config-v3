@@ -1,7 +1,5 @@
 #!/usr/bin/env bash
-
 # shellcheck disable=SC2034
-declare -A module_options
 
 _merge_metadata_arrays() {
 	for array_name in "$@"; do
@@ -13,7 +11,7 @@ _merge_metadata_arrays() {
 }
 
 # Output Markdown table for each module/helper
-_metadata_md_list() {
+_metadata_md_table() {
 	local -n options_array="$1"
 	local -A seen_sections=()
 
@@ -39,10 +37,3 @@ _metadata_md_list() {
 		echo
 	done
 }
-
-if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
-	script_dir="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-	source "$script_dir/../lib/module_options_arrays.sh"
-	_merge_metadata_arrays framework_options framework_helpers
-	_metadata_md_list module_options
-fi
