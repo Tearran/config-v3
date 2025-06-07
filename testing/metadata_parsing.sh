@@ -40,7 +40,8 @@ _metadata_md_list() {
 }
 
 if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
-	. ./lib/module_options_arrays.sh
+	script_dir="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+	source "$script_dir/../lib/module_options_arrays.sh"
 	_merge_metadata_arrays framework_options framework_helpers
 	_metadata_md_list module_options
 fi
