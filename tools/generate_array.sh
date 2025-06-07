@@ -31,9 +31,9 @@ emit_section() {
 			exit 1
 		fi
 		done
-		arr="${parent}_helpers"
+		local arr="${parent}_helpers"
 	else
-		arr="${parent}_options"
+		local arr="${parent}_options"
 	fi
 
 	# Generate unique id: first 3 uppercase chars of group, padded 3-digit counter
