@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 
+set -euo pipefail
+
 declare -A module_options
 
 if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then

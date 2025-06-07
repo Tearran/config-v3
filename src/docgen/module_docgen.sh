@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 
+set -euo pipefail
+
 module_docgen() {
 	case "$1" in
 		md|markdown)
