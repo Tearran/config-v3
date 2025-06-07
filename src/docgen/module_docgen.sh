@@ -1,3 +1,5 @@
+#!/usr/bin/env bash
+
 module_docgen() {
 	case "$1" in
 		md|markdown)
