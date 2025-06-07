@@ -1,9 +1,10 @@
 reviews:
   path_instructions:
+    - path: "src/**/*.sh"  
+      instructions: "These are shell module files that are sourced by the main script."  
     - path: "src/**/*.sh"
       instructions: |
         Shell script review:
-        - Use 'set -euo pipefail' for safety
         - Proper variable quoting
         - Portable shell features
         - Security considerations
