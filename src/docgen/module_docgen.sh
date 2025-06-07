@@ -9,7 +9,7 @@ module_docgen() {
 			_metadata_help module_options
 		;;
 		*)
-			echo "Usage: module_docgen {md|help}" >&2
+			echo "Usage: module_docgen {md|markdown|help}" >&2
 			return 1
 		;;
 	esac
