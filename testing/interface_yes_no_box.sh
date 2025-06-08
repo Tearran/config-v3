@@ -1,10 +1,6 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-# Optional: Enable/disable test, or set test metadata
-ENABLED=true
-RELEASE="bookworm"
-TESTNAME="Module yes no box Test"
 
 if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
 	script_dir="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"

@@ -2,10 +2,6 @@
 set -euo pipefail
 
 
-ENABLED=true
-RELEASE="bookworm"
-TESTNAME="merge Module metadata Test"
-
 declare -A module_options
 
 if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
