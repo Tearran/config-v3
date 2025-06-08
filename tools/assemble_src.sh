@@ -37,4 +37,4 @@ for DIR in "$SRC_ROOT"/*/; do
 	done
 done
 
-echo "All namespace files have assembled in $LIB_ROOT/"
+echo "All library files have assembled in $LIB_ROOT/"
