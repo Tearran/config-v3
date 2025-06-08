@@ -14,13 +14,11 @@ initialize_framework_variables() {
 
 _set_paths() {
 
-	export SCRIPT_PATH="${BASH_SOURCE[0]}"
-	export SCRIPT_NAME="$(basename "${BASH_SOURCE[0]}")"
-	export SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-	export CONF_FILE="${SCRIPT_DIR}/${SCRIPT_NAME%.sh}.conf"
-	export ROOT="$(cd "${SCRIPT_DIR}/../.." && pwd)"
-	export MODULES_DIR="${ROOT}/src/modules"
-	export TOOLS_DIR="${ROOT}/tools"
+	SCRIPT_PATH="${BASH_SOURCE[0]}"
+	SCRIPT_NAME="$(basename "${BASH_SOURCE[0]}")"
+	SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+	ROOT="$(cd "${SCRIPT_DIR}/../.." && pwd)"
+	TOOLS_DIR="${ROOT}/tools"
 	# Add more exports as required...
 
 }
@@ -30,9 +28,7 @@ _unset_paths() {
 	unset SCRIPT_PATH
 	unset SCRIPT_NAME
 	unset SCRIPT_DIR
-	unset CONF_FILE
 	unset ROOT
-	unset MODULES_DIR
 	unset TOOLS_DIR
 }
 

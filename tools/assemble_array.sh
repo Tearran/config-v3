@@ -1,28 +1,86 @@
 #!/usr/bin/env bash
+# Robust parser: builds ${parent}_helpers[...] and ${parent}_options[...] arrays
+# from .conf files, emitting every key/value, regardless of key order, plus a unique_id.
+
 set -euo pipefail
 
 SRC_ROOT="./src"
-LIB_ROOT="./lib"
-META_ARRAY_FILE="$LIB_ROOT/module_options.sh"
+OUT_FILE="./lib/module_options_arrays.sh"
 
-echo "declare -A module_options=(" > "$META_ARRAY_FILE"
+declare -A array_entries
+declare -A group_counts  # For unique id per group
 
-for module_meta in "$SRC_ROOT"/*/*.conf; do
-	[[ -e "$module_meta" ]] || continue
-	module_name=$(basename "$module_meta" .conf)
+# Required keys for helpers (no 'documents')
+required_helper_keys=(description extend_disc parent group)
 
+# Helper: emit a finished section
+emit_section() {
+	local section="$1"
+	declare -n mapref="$2"
+	local parent="${mapref[parent]:-}"
+	local group="${mapref[group]:-}"
 
-	while IFS='=' read -r key value; do
-		# Skip section headers like [section]
-		[[ "$key" =~ ^\[.*\]$ ]] && continue
-		# Skip comments and empty key
+	# Skip if section or parent is missing
+	[[ -z "$section" || -z "$parent" || -z "$group" ]] && return
+
+	# If helper, check required keys
+	if [[ "$section" == _* ]]; then
+		for req in "${required_helper_keys[@]}"; do
+		if [[ -z "${mapref[$req]:-}" ]]; then
+			echo "Error: Helper section [$section] missing required key: $req" >&2
+			exit 1
+		fi
+		done
+		local arr="${parent}_helpers"
+	else
+		local arr="${parent}_options"
+	fi
+
+	# Generate unique id: first 3 uppercase chars of group, padded 3-digit counter
+	local group_key=$(echo "$group" | tr '[:lower:]' '[:upper:]' | cut -c1-3)
+	group_counts["$group_key"]=$(( ${group_counts["$group_key"]:-0} + 1 ))
+	local id_num=$(printf "%03d" "${group_counts["$group_key"]}")
+	local unique_id="${group_key}${id_num}"
+
+	mapref["unique_id"]="$unique_id"
+
+	for key in "${!mapref[@]}"; do
+		array_entries["$arr"]+=$'\n'"${arr}[${section},${key}]=\"${mapref[$key]}\""
+	done
+}
+
+	# Process each .conf file in SRC_ROOT
+for conf in "$SRC_ROOT"/*/*.conf; do
+	[[ -e "$conf" ]] || continue
+	section=""
+	declare -A section_kv=()
+
+	while IFS='=' read -r key value || [[ -n "$key" ]]; do
+		# Section header: [section]
+		if [[ "$key" =~ ^\[(.*)\]$ ]]; then
+		emit_section "$section" section_kv
+		section="${BASH_REMATCH[1]}"
+		section_kv=()
+		continue
+		fi
+		# Skip comments and blank lines
 		[[ "$key" =~ ^#.*$ || -z "$key" ]] && continue
-		# DO NOT skip blank values -- we want keys like options= in the array!
 
-		printf '    ["%s,%s"]="%s"\n' "$module_name" "$key" "$value" >> "$META_ARRAY_FILE"
-	done < "$module_meta"
+		section_kv["$key"]="$value"
+	done < "$conf"
 
+	# Emit last section in file
+	emit_section "$section" section_kv
 done
 
-echo ")" >> "$META_ARRAY_FILE"
-echo "module_options array written to $META_ARRAY_FILE"
+{
+	echo -e "######## Auto-generated. Do not edit. ########\n"
+	for arr in $(printf "%s\n" "${!array_entries[@]}" | sort); do
+		echo -e "######## start $arr ########\n#"
+		echo "declare -A $arr"
+		echo "${array_entries[$arr]}"
+		echo -e "#\n######## finish $arr ########\n"
+	done
+} > "$OUT_FILE"
+
+echo "Wrote generated options arrays to $OUT_FILE"

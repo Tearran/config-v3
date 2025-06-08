@@ -1,10 +1,15 @@
 #!/usr/bin/env bash
-
 set -euo pipefail
+
+
+ENABLED=true
+RELEASE="bookworm"
+TESTNAME="merge Module metadata Test"
 
 declare -A module_options
 
 if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
+	script_dir="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 	script_dir="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 	source "$script_dir/../lib/module_options_arrays.sh"
 	source "$script_dir/../src/framework/metadata_array_parsing.sh"
