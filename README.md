@@ -29,25 +29,6 @@ It supports command-line (CLI) and text user interfaces (TUI).
 
 ---
 
-## What armbian-config (config-v3) **Is**
-
-- **A Framework for System Configuration:**  
-  Provides a collection of reusable Bash modules and helpers for managing and automating configuration tasks on Armbian systems.
-
-- **Interface-Agnostic:**  
-  Separates backend configuration logic from user interface code, enabling the same procedures to be accessed via CLI, TUI (text user interface), and future GUI implementations.
-
-- **Modular and Extensible:**  
-  Encourages the use of distinct, well-documented modules for each configuration area, facilitating easier maintenance and contribution.
-
-- **Testable:**  
-  Built with unit testing and automation in mind, allowing for reliable operation and easier validation of changes.
-
-- **Documentation-Focused:**  
-  Provides extensive documentation and in-line help for modules and commands, lowering the barrier for both users and contributors.
-
----
-
 ## Goals
 
 - **Migrate and Refactor:**  
