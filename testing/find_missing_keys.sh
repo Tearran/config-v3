@@ -1,23 +1,25 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-declare -n arr="framework_helpers"  # or framework_options, etc.
-local key mod
-local -A seen_mods=()
 
 main() {
-# Collect all unique modules (prefix before the comma)
-for key in "${!arr[@]}"; do
-	mod="${key%%,*}"
-	seen_mods["$mod"]=1
-done
+	declare -n arr="framework_helpers"  # or framework_options, etc.
+	local key mod
+	local -A seen_mods=()
 
-for mod in "${!seen_mods[@]}"; do
-	# Check for feature key
-	if [[ ! -v arr["$mod,feature"] ]]; then
-		echo "MISSING: $mod,feature"
-	fi
-done
+
+	# Collect all unique modules (prefix before the comma)
+	for key in "${!arr[@]}"; do
+		mod="${key%%,*}"
+		seen_mods["$mod"]=1
+	done
+
+	for mod in "${!seen_mods[@]}"; do
+		# Check for feature key
+		if [[ ! -v arr["$mod,feature"] ]]; then
+			echo "MISSING: $mod,feature"
+		fi
+	done
 }
 
 main "$@"
