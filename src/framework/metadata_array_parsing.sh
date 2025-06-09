@@ -48,3 +48,15 @@ _metadata_md_table() {
 		fi
 	done
 }
+
+
+search_module_metadata() {
+	local prefix="$1"   # e.g., "_set_interface_box_colors"
+	# Loop over all keys in module_options
+	for key in "${!module_options[@]}"; do
+		# Check if key starts with the prefix followed by a comma
+		if [[ "$key" == "$prefix,"* ]]; then
+			printf "%s = %s\n" "$key" "${module_options[$key]}"
+		fi
+	done
+}

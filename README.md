@@ -1,49 +1,65 @@
 <p align="center">
   <a href="#build-framework">
-  <img src="https://raw.githubusercontent.com/armbian/configng/main/share/icons/hicolor/scalable/configng-tux.svg" width="128" alt="Armbian Config NG Logo" />
+    <img src="https://raw.githubusercontent.com/armbian/configng/main/share/icons/hicolor/scalable/configng-tux.svg" width="128" alt="Armbian Config Logo" />
   </a><br>
-  <strong>Armbian Config: The Next Generation</strong><br>
-<br>
+  <strong>Armbian Config: The Next Generation V3</strong><br>
+  <br>
+</p>
 
+# armbian-config (config-v3)
 
-## What is armbian-config?
+## Overview
 
-`armbian-config` is an interactive configuration utility for Armbian-based systems, designed to help users configure their device **after it has been installed and booted**. It provides a menu-driven interface for managing system settings, software, hardware, and services **within the running system ("image-space")**.
+**armbian-config** is a system configuration tool for Armbian-based systems. It helps users set up and manage system settings through a simple, interactive interface.
 
+It supports command-line (CLI) and text user interfaces (TUI).
 
-## about
+---
 
-This tool is optimized for use with [**Armbian Linux**](https://www.armbian.com), but in theory, it should also work on any systemd-based, APT-compatible Linux distribution — including Linux Mint, Elementary OS, Kali Linux, MX Linux, Parrot OS, Proxmox, Raspberry Pi OS, and others.
+## Scope and Responsibilities
 
+- **armbian-config operates only in image-space.**  
+  It is used exclusively on a running Armbian system and does **not** participate in the image build process. It does **not** affect image creation or customization at build time.
 
-## Contributing
+- **Image build changes belong to the build scripts.**  
+  If you wish to change the default contents, packages, or configurations included in an Armbian image before it is built, those changes must be made in the Armbian build scripts—not in armbian-config.
 
-<a href="https://github.com/armbian/configng/graphs/contributors">
-  <img src="https://contrib.rocks/image?repo=configng/config-v3" />
-</a>
-<br>
-<br>
- 
-Thank you to everyone who has contributed to **Armbian-config** — your efforts are deeply appreciated!
+- **Limit feature requests and bug reports to image-space actions.**  
+  Feature requests or bug reports for armbian-config should only involve tasks that can be changed or applied on a running system. Requests relating to image creation or build-time customization should be directed to the Armbian build system.
 
-#### General
+---
 
-- `armbian-config` operates **only in image-space**. It is **not** used during the image build process and does **not** affect image creation or customization at build time.
-- If you wish to change the default contents, packages, or configurations included in an Armbian image before it is built, those changes must be made in the [Armbian build scripts](https://github.com/armbian/build), **not** in `armbian-config`.
-- Feature requests or bug reports for `armbian-config` should be limited to things that can be changed or applied **within image-space** (i.e., on a running system), not during image creation or build time.
+## What armbian-config (config-v3) **Is**
 
-#### Adding or configuring functionality
+- **A Framework for System Configuration:**  
+  Provides a collection of reusable Bash modules and helpers for managing and automating configuration tasks on Armbian systems.
 
-> 📌 Tip: Keep your changes modular and easy to maintain — this helps us review and merge your contribution faster.
+- **Interface-Agnostic:**  
+  Separates backend configuration logic from user interface code, enabling the same procedures to be accessed via CLI, TUI (text user interface), and future GUI implementations.
 
-#### 💖 Donating
+- **Modular and Extensible:**  
+  Encourages the use of distinct, well-documented modules for each configuration area, facilitating easier maintenance and contribution.
 
-Not a developer? You can still make a big impact! Your donations help us maintain infrastructure, test hardware, and improve development workflows.
+- **Testable:**  
+  Built with unit testing and automation in mind, allowing for reliable operation and easier validation of changes.
 
-[Support the project here](https://github.com/sponsors/armbian)
+- **Documentation-Focused:**  
+  Provides extensive documentation and in-line help for modules and commands, lowering the barrier for both users and contributors.
 
-## License
+---
 
-(c) [Contributors](https://github.com/armbian/configng/graphs/contributors)
+## Goals
 
-All code is licensed under the GPL, v2 or later. See [LICENSE](LICENSE) file for details.
+- **Migrate and Refactor:**  
+  Transition legacy code and features into a standard, modern development structure.
+
+- **Promote Code Reuse:**  
+  Encourage modular, reusable Bash code for consistent configuration handling.
+
+- **Enable Testing:**  
+  Facilitate robust unit and integration testing for all modules and helpers.
+
+- **Support Automation and Multiple UIs:**  
+  Clean separation of backend configuration from interface logic to allow for both automation and various user-facing interfaces.
+
+---
