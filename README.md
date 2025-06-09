@@ -44,7 +44,7 @@ It supports command-line (CLI) and text user interfaces (TUI).
   Built with unit testing and automation in mind, allowing for reliable operation and easier validation of changes.
 
 - **Documentation-Focused:**  
-  Provides extenive documentation and in-line help for modules and commands, lowering the barrier for both users and contributors.
+  Provides extensive documentation and in-line help for modules and commands, lowering the barrier for both users and contributors.
 
 ---
 
