@@ -20,17 +20,17 @@ port=
 '
 
 find "$SRC_DIR" -type f -name "*.sh" | while read -r shfile; do
-    dir=$(dirname "$shfile")
-    base=$(basename "$shfile" .sh)
-    conf="$dir/$base.conf"
-    fixconf="$dir/fix_${base}_missing.conf"
+	dir=$(dirname "$shfile")
+	base=$(basename "$shfile" .sh)
+	conf="$dir/$base.conf"
+	fixconf="$dir/fix_${base}_missing.conf"
 
-    if [[ ! -f "$conf" ]]; then
-        if [[ ! -f "$fixconf" ]]; then
-            echo "No conf for $shfile, creating $fixconf"
-            printf "%s" "$CONF_TEMPLATE" > "$fixconf"
-        else
-            echo "$fixconf already exists."
-        fi
-    fi
+	if [[ ! -f "$conf" ]]; then
+			if [[ ! -f "$fixconf" ]]; then
+				echo "No conf for $shfile, creating $fixconf"
+				printf "%s" "$CONF_TEMPLATE" > "$fixconf"
+			else
+				echo "$fixconf already exists."
+			fi
+	fi
 done
