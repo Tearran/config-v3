@@ -123,7 +123,7 @@ _tui_about() {
 function interface_categories() {
 	# Ordered list of keys
 	local keys
-	IFS=' ' read -r -a keys <<< "${framework_options["interface_categories,options"]}"
+	IFS=' ' read -r -a keys <<< "${framework_options["${FUNCNAME[0]},options"]}"
 
 	local -A description=(
 		["System"]="System wide and admin settings (\$(uname -m))"
@@ -140,8 +140,8 @@ function interface_categories() {
 		"${keys[3]}") interface_menu _tui_software	;;
 		"${keys[4]}") interface_menu _tui_about | interface_message ;;
 		"help")
-		echo -e "\nUsage: ${framework_options["interface_categories,feature"]} <command>"
-		echo -e "Options:  ${framework_options["interface_categories,options"]}"
+		echo -e "\nUsage: ${framework_options["${FUNCNAME[0]},feature"]} <command>"
+		echo -e "Options:  ${framework_options["${FUNCNAME[0]},options"]}"
 		echo "Available Options:"
 		for key in "${keys[@]}"; do
 			eval "desc=\"${description[$key]}\""
