@@ -1,12 +1,6 @@
+#!/usr/bin/env bash
 
-framework_options+=(
-	["update_skel,author"]="@igorpecovnik"
-	["update_skel,ref_link"]=""
-	["update_skel,feature"]="update_skel"
-	["update_skel,desc"]="Update the /etc/skel files in users directories"
-	["update_skel,options"]="update_skel"
-	["update_skel,group"]="Interface"
-)
+
 #
 # check dpkg status of $1 -- currently only 'not installed at all' case caught
 #
