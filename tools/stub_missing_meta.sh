@@ -22,8 +22,8 @@ port=
 find "$SRC_DIR" -type f -name "*.sh" | while read -r shfile; do
 	dir=$(dirname "$shfile")
 	base=$(basename "$shfile" .sh)
-	conf="$dir/$base.conf"
-	fixconf="$dir/fix_${base}_missing.conf"
+	conf="$dir/$base.meta"
+	fixconf="$dir/stub_${base}.meta"
 
 	if [[ ! -f "$conf" ]]; then
 			if [[ ! -f "$fixconf" ]]; then

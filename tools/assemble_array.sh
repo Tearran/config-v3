@@ -5,7 +5,9 @@
 set -euo pipefail
 
 SRC_ROOT="./src"
-OUT_FILE="./lib/module_options_arrays.sh"
+OUT_FILE="./lib/armbian-config/module_options_arrays.sh"
+
+mkdir -p "$(dirname "$OUT_FILE")"
 
 declare -A array_entries
 declare -A group_counts  # For unique id per group

@@ -7,7 +7,7 @@ LIB_ROOT="./lib/armbian-config"
 # List of .sh files to ignore (case-insensitive, add more as needed)
 IGNORE_FILES=("readme.sh" "example_skip.sh")
 
-mkdir -p "$LIB_ROOT"
+mkdir -p "$(dirname "$LIB_ROOT")"
 
 for DIR in "$SRC_ROOT"/*/; do
 	NS=$(basename "$DIR")
