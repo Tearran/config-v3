@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 
-function support_armbian_configng() {
+function support_armbian_config() {
 
 	echo "Armbian Config: The Next Generation"
 	echo ""
