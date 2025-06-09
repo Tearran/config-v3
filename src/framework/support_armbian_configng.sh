@@ -1,3 +1,4 @@
+#!/usr/bin/env bash
 
 
 function support_armbian_configng() {
@@ -7,7 +8,7 @@ function support_armbian_configng() {
 	echo "How to make this tool even better?"
 	echo ""
 	echo "- propose new features or software titles"
-	echo "  https://github.com/armbian/configng/issues/new?template=feature-reqests.yml"
+	echo "  https://github.com/armbian/configng/issues/new?template=feature-requests.yml"
 	echo ""
 	echo "- report bugs"
 	echo "  https://github.com/armbian/configng/issues/new?template=bug-reports.yml"
