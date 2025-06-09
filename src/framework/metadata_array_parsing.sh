@@ -48,3 +48,25 @@ _metadata_md_table() {
 		fi
 	done
 }
+
+
+function options_list() {
+	local array_name="$1"
+	local usage="$2"
+	local -n options_array="$array_name"  # Bash 4.3+ nameref
+	local mod_message="Usage: ${0} [$usage] [options]\n\n"
+	i=1
+
+	for function_name in "${!options_array[@]}"; do
+	# Parse out the function name if your keys are like "foo,description"
+	[[ "$function_name" =~ ^([^,]+),feature$ ]] || continue
+	fn_name="${BASH_REMATCH[1]}"
+	type="feature" # or get from your array if stored
+	if [[ "$type" == "feature" ]]; then
+		example="${options_array["$fn_name,options"]}"
+		mod_message+="$i. ${options_array["$fn_name,description"]}\n\t${options_array["$fn_name,unique_id"]} $example\n\n"
+		((i++))
+	fi
+	done
+	echo -e "$mod_message"
+}
