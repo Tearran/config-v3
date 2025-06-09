@@ -355,7 +355,7 @@
 | description | Output Markdown table for module metadata arrays |
 | group | helpers |
 | extend_disc | Outputs a GitHub-flavored Markdown table for the provided associative array of metadata or options, grouping by section. Useful for automated documentation generation and readability. |
-| feature |  |
+| feature | _metadata_md_table |
 ### `interface_box_colors`
 
 **unique_id:** `INT001`
@@ -384,6 +384,7 @@
 |-------------|-------|
 | parent | framework |
 | extend_docs | false |
+| feature | _about_interface_box_colors |
 | description | Show help and usage information for interface_box_colors module. |
 | _term_colors | _about_interface_box_colors |
 | unique_id | HEL005 |

@@ -1,11 +1,11 @@
 #!/usr/bin/env bash
 # Robust parser: builds ${parent}_helpers[...] and ${parent}_options[...] arrays
-# from .conf files, emitting every key/value, regardless of key order, plus a unique_id.
+# from .meta files, emitting every key/value, regardless of key order, plus a unique_id.
 
 set -euo pipefail
 
 SRC_ROOT="./src"
-OUT_FILE="./lib/module_options_arrays.sh"
+OUT_FILE="./lib/armbian-config/module_options_arrays.sh"
 
 declare -A array_entries
 declare -A group_counts  # For unique id per group
@@ -49,9 +49,9 @@ emit_section() {
 	done
 }
 
-	# Process each .conf file in SRC_ROOT
-for conf in "$SRC_ROOT"/*/*.conf; do
-	[[ -e "$conf" ]] || continue
+	# Process each .meta file in SRC_ROOT
+for meta in "$SRC_ROOT"/*/*.meta; do
+	[[ -e "$meta" ]] || continue
 	section=""
 	declare -A section_kv=()
 
@@ -67,7 +67,7 @@ for conf in "$SRC_ROOT"/*/*.conf; do
 		[[ "$key" =~ ^#.*$ || -z "$key" ]] && continue
 
 		section_kv["$key"]="$value"
-	done < "$conf"
+	done < "$meta"
 
 	# Emit last section in file
 	emit_section "$section" section_kv
