@@ -1,4 +1,5 @@
-# package.sh
+#!/usr/bin/env bash
+set -o pipefail
 
 # internal function
 _pkg_have_stdin() { [[ -t 0 ]]; }
@@ -136,10 +137,12 @@ see_current_apt() {
 	local day=86400
 	local ten_minutes=600
 	# Get the current date as a Unix timestamp
-	local now=$(date +%s)
+	local now
+	now=$(date +%s)
 
 	# Get the timestamp of the most recently updated file in /var/lib/apt/lists/
-	local update=$(stat -c %Y /var/lib/apt/lists/* 2>/dev/null | sort -n | tail -1)
+	local update
+	update=$(stat -c %Y /var/lib/apt/lists/* 2>/dev/null | sort -n | tail -1)
 
 	# Check if the update timestamp was found
 	if [[ -z "$update" ]]; then
