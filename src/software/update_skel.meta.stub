@@ -1,0 +1,14 @@
+[]
+feature=
+description=
+extend_disc=
+extend_docs=
+options=
+parent=
+group=
+contributor=
+maintainer=
+arch=arm64 armhf x86-64
+require_os=Debian Ubuntu Armbian
+require_kernel=5.15+
+port=

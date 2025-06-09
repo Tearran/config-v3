@@ -23,7 +23,7 @@ find "$SRC_DIR" -type f -name "*.sh" | while read -r shfile; do
 	dir=$(dirname "$shfile")
 	base=$(basename "$shfile" .sh)
 	conf="$dir/$base.meta"
-	fixconf="$dir/stub_${base}.meta"
+	fixconf="$dir/${base}.meta.stub"
 
 	if [[ ! -f "$conf" ]]; then
 			if [[ ! -f "$fixconf" ]]; then
