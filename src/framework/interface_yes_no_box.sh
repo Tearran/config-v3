@@ -1,67 +1,59 @@
 #!/usr/bin/env bash
 
-
-function _about_interface_yes_no() {
+# Print usage/help for this function.
+function _about_interface_yes_no_box() {
 	cat <<EOF
-Usage: interface_yes_no <message> <next_action>
-	<message>       The message to show in the Yes/No dialog.
-	<next_action>   Callback function to call with result ("No" if cancelled).
-	help            Show this message.
+Usage: interface_yes_no <message> <callback_function>
+  <message>           Message to show in the Yes/No dialog.
+  <callback_function> Function to call with result ("No" if cancelled).
+  help                Show this message.
 
 Example:
-	interface_yes_no "Are you sure?" _process_yes_no
+  interface_yes_no "Are you sure?" _process_yes_no
 EOF
 }
 
-
+# Example callback function.
 function _process_yes_no() {
 	local input="${1:-}"
-	if [ "$input" = "No" ]; then
+	if [[ "$input" == "No" ]]; then
 		echo "User canceled. Exiting."
-		exit 0
+		exit 1
 	else
 		echo "User confirmed."
-		# Place your logic here.
+		# Place your custom logic here.
 	fi
 }
 
-
+# Main yes/no dialog function.
 function interface_yes_no() {
-	local message="$1"
-	local next_action="$2"
-	local allowed_functions=("_process_yes_no")
-	local found=0
+	local message="${1:-}"
+	local callback="${2:-}"
 
-	case "$message" in
-		help|-h)
-		_about_interface_yes_no
+	if [[ "$message" == "help" || "$message" == "-h" ]]; then
+		_about_interface_yes_no_box
 		return 0
-		;;
-		*)
-		for func in "${allowed_functions[@]}"; do
-			if [[ "$func" == "$next_action" ]]; then
-				found=1
-				break
-			fi
-		done
+	fi
 
-		if [[ "$found" -eq 1 ]]; then
-			if "$DIALOG" --yesno "$message" 10 80 3>&1 1>&2 2>&3; then
-				"$next_action"
-			else
-				"$next_action" "No"
-			fi
-		else
-			echo "Error: Invalid function"
-			exit 1
-		fi
-		;;
-	esac
+	if [[ -z "$message" || -z "$callback" ]]; then
+		echo "Error: Missing arguments." >&2
+		_about_interface_yes_no_box
+		return 1
+	fi
+
+	# Optionally restrict callbacks here, or trust caller
+	if declare -F "$callback" > /dev/null; then
+		: # OK
+	else
+		echo "Error: Callback function '$callback' not found." >&2
+		return 2
+	fi
+
+	local dialog="${DIALOG:-whiptail}"
+
+	if "$dialog" --yesno "$message" 10 80 3>&1 1>&2 2>&3; then
+		"$callback"
+	else
+		"$callback" "No"
+	fi
 }
-
-
-# Example usage: Only run if called directly, not sourced
-if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
-	DIALOG="${DIALOG:-whiptail}"
-	interface_yes_no "$1" _process_yes_no
-fi

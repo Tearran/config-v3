@@ -4,50 +4,53 @@ _about_interface_info_box() {
 	cat <<EOF
 Usage: interface_info_box
 
-Reads lines from stdin and displays them in a rolling infobox using whiptail/dialog.
+Displays a rolling info box using dialog/whiptail.
+Reads lines from stdin and displays them live.
+If not used with a pipe, shows a single message.
 
 Examples:
-	some_command | interface_info_box
-	echo "Hello" | interface_info_box
-	interface_info_box -h|--help|help
+    some_command | interface_info_box
+    echo "Hello" | interface_info_box
+    interface_info_box -h|--help|help
 EOF
 }
 
 interface_info_box() {
 	# Help flag: show about if -h or --help is the first argument
-	case "$1" in
+	case "${1:-}" in
 		-h|--help|help)
-		_about_interface_info_box
-		return 1
-		;;
+			_about_interface_info_box
+			return 0
+			;;
 	esac
 
 	local input
-	local TITLE="$TITLE"
-	local -a buffer # Declare buffer as an array
+	local dialog="${DIALOG:-}"
+	if [[ "$dialog" != "dialog" && "$dialog" != "whiptail" ]]; then
+		dialog="whiptail"
+	fi
+	local title="${TITLE:-Info}"
+	local -a buffer
+	local lines=16 width=90 max_lines=18
+
 	if [ -p /dev/stdin ]; then
 		while IFS= read -r line; do
-			buffer+=("$line") # Add the line to the buffer
-			# If the buffer has more than 10 lines, remove the oldest line
-			if ((${#buffer[@]} > 18)); then
-				buffer=("${buffer[@]:1}")
-			fi
-			# Display the lines in the buffer in the infobox
-
-			TERM=ansi $DIALOG --title "$TITLE" --infobox "$(printf "%s\n" "${buffer[@]}")" 16 90
+			buffer+=("$line")
+			# Limit buffer size to max_lines
+			((${#buffer[@]} > max_lines)) && buffer=("${buffer[@]:1}")
+			# Show buffer in infobox
+			TERM=ansi $dialog --title "$title" --infobox "$(printf "%s\n" "${buffer[@]}")" $lines $width
 			sleep 0.5
 		done
 	else
-
-		input="$1"
-		TERM=ansi $DIALOG --title "$TITLE" --infobox "$input" 6 80
+		input="${1:-}"
+		if [[ -z "$input" ]]; then
+			echo "Error: No input provided." >&2
+			_about_interface_info_box
+			return 1
+		fi
+		TERM=ansi $dialog --title "$title" --infobox "$input" 6 80
+		sleep 2
 	fi
 	echo -ne '\033[3J' # clear the screen
 }
-
-# Example usage: Only run if called directly, not sourced
-if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
-	DIALOG="${DIALOG:-whiptail}"
-	TITLE="${TITLE:-$DIALOG}"
-	interface_info_box "$@"
-fi
