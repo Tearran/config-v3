@@ -1,4 +1,4 @@
-name: Run stub and tests
+name: Check PR Staging 
 
 on:
   push:
