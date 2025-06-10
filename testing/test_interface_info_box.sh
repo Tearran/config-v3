@@ -6,5 +6,5 @@ if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
 	source ./src/framework/interface_info_box.sh
 	DIALOG="${DIALOG:-whiptail}"
 	TITLE="${TITLE:-$DIALOG}"
-	interface_info_box "$@"
+	echo -e "test line one \n line 2" | interface_info_box
 fi
