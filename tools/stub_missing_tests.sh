@@ -23,7 +23,7 @@ declare -A module_options
 
 if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
 	echo "WARNING: This is a stub test for sanitize_die."
-	# TODO: Replace this stub with actual tests.
+	echo "Replace this stub with actual tests."
 	exit 1
 fi
 
