@@ -109,6 +109,3 @@
 - name: "Improper usage"
   color: "CD456C"
   description: "Provided input is not in the expected data format or structure"
-- name: "Review Staging"
-  color: "00FFFF"
-  description: "Staging for New feature testing and review"
