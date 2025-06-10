@@ -18,10 +18,10 @@ jobs:
         run: chmod +x ./testing/*
 
       - name: Run assemble_src.sh
-        run: ./testing/assemble_src.sh
+        run: ./tools/assemble_src.sh
 
       - name: Run assemble_array.sh
-        run: ./testing/assemble_array.sh
+        run: ./tools/assemble_array.sh
 
       - name: Run all test scripts in ./testing
         run: |
