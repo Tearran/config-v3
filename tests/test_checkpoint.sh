@@ -6,7 +6,7 @@ set -euo pipefail
 declare -A module_options
 
 if [[ "tools/stub_missing_tests.sh" == "tools/stub_missing_tests.sh" ]]; then
-	DEBUG=$(DEBUG:-)
+	DEBUG="${DEBUG:-true}"
 	source "src/initialize/checkpoint.sh"
 	checkpoint reset
 	checkpoint mark "Unit-test"
