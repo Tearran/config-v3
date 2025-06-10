@@ -9,9 +9,9 @@ Reads lines from stdin and displays them live.
 If not used with a pipe, shows a single message.
 
 Examples:
-    some_command | interface_info_box
-    echo "Hello" | interface_info_box
-    interface_info_box -h|--help|help
+	some_command | interface_info_box
+	echo "Hello" | interface_info_box
+	interface_info_box -h|--help|help
 EOF
 }
 
