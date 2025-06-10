@@ -1,10 +1,16 @@
 name: Run stub and tests
 
 on:
+  push:
+    paths:
+      - 'tools/stub_missing_staging.sh'
+      - 'staging/test_*.sh'
+      - '.github/workflows/test-stubs.yml'
+      - '**.sh'
   pull_request:
     paths:
       - 'tools/stub_missing_staging.sh'
-      - 'test_*.sh'
+      - 'staging/test_*.sh'
       - '.github/workflows/test-stubs.yml'
       - '**.sh'
 
@@ -19,17 +25,17 @@ jobs:
       - name: Set execute permissions
         run: |
           chmod +x ./tools/stub_missing_staging.sh
-          chmod +x ./test_*.sh
+          chmod +x ./staging/test_*.sh
 
       - name: Run stub_missing_staging.sh
         run: ./tools/stub_missing_staging.sh
 
-      - name: Run all test_*.sh scripts
+      - name: Run all test_*.sh scripts in staging/
         run: |
-          for test_script in ./test_*.sh; do
+          for test_script in ./staging/test_*.sh; do
             if [ -x "$test_script" ]; then
               echo "Running $test_script"
-              bash "$test_script"
+              "$test_script"
             else
               echo "Skipping $test_script (not executable)"
             fi
