@@ -1,2 +1,0 @@
-# Staging 
-./staging/ – Holds new or modified modules pending verification. Features placed here must pass automated tests before being copied to their destination directories (src/, tests/, etc.) via GitHub Actions.
