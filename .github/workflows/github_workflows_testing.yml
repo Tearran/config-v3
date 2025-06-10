@@ -14,13 +14,23 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Make test scripts executable
+      - name: Make setup and test scripts executable
         run: chmod +x ./testing/*
+
+      - name: Run assemble_src.sh
+        run: ./testing/assemble_src.sh
+
+      - name: Run assemble_array.sh
+        run: ./testing/assemble_array.sh
 
       - name: Run all test scripts in ./testing
         run: |
           set -e
           for script in ./testing/*; do
+            # Skip the setup scripts to avoid running them again
+            case "$script" in
+              *assemble_src.sh|*assemble_array.sh) continue ;;
+            esac
             if [ -f "$script" ] && [ -x "$script" ]; then
               echo "Running $script"
               "$script"
