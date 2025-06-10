@@ -38,5 +38,5 @@
 
 "Review Staging":
 - all:
-  - changed-files:
+  - review-staging:
     - any-glob-to-any-file: ['staging/*']
