@@ -1,0 +1,23 @@
+[initialize_interface]
+feature=initialize_interface
+description=Initialize text user interface (TUI) dialog tool detection and configuration.
+extend_disc=Detects and configures available dialog tools (whiptail or dialog) for text-based user interfaces. Sets the DIALOG environment variable based on tool availability hierarchy. Provides help information and error handling when no suitable TUI tools are found.
+documents=false
+options=help
+parent=framework
+group=Initialize
+contributor=Tearran
+maintainer=true
+arch=arm64 armhf x86-64
+require_os=Debian Ubuntu Armbian
+require_kernel=5.15+
+port=false
+
+[_about_initialize_interface]
+feature=_about_initialize_interface
+description=Show help and usage information for the initialize_interface function.
+extend_disc=Outputs usage instructions and available options for the initialize_interface TUI initialization function.
+documents=false
+options=
+parent=framework
+group=helpers
