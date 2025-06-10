@@ -1,4 +1,4 @@
-name: Check PR Staging 
+name: Review Staging
 
 on:
   push:
