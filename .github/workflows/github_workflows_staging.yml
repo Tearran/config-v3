@@ -16,6 +16,7 @@ on:
 
 jobs:
   stub-and-test:
+    name: "Test and stub missing"
     runs-on: ubuntu-latest
 
     steps:
