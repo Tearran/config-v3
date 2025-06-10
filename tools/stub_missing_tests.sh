@@ -2,7 +2,7 @@
 set -euo pipefail
 
 SRC_DIR="./src"
-TEST_DIR="./testing"
+TEST_DIR="./tests"
 
 find "$SRC_DIR" -type f -name "*.sh" | while read -r module; do
 	mod_base=$(basename "$module" .sh)
@@ -16,11 +16,17 @@ find "$SRC_DIR" -type f -name "*.sh" | while read -r module; do
 		cat > "$stubfile" <<EOF
 #!/usr/bin/env bash
 # STUB TEST for $mod_base. Replace with real tests.
+
 set -euo pipefail
 
-echo "WARNING: This is a stub test for $mod_base."
-# TODO: Replace this stub with actual tests.
-exit 1
+declare -A module_options
+
+if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
+	echo "WARNING: This is a stub test for sanitize_die."
+	# TODO: Replace this stub with actual tests.
+	exit 1
+fi
+
 EOF
 		chmod +x "$stubfile"
 		echo "Created stub: $stubfile"

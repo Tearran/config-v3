@@ -22,6 +22,9 @@ jobs:
 
       - name: Run assemble_array.sh
         run: ./tools/assemble_array.sh
+      
+      - name: Run stub_missing_tests.sh
+        run: ./tools/stub_missing_tests.sh
 
       - name: Run all test scripts in ./tests
         run: |
