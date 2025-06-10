@@ -1,0 +1,36 @@
+name: Run stub and tests
+
+on:
+  pull_request:
+    paths:
+      - 'tools/stub_missing_staging.sh'
+      - 'test_*.sh'
+      - '.github/workflows/test-stubs.yml'
+      - '**.sh'
+
+jobs:
+  stub-and-test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set execute permissions
+        run: |
+          chmod +x ./tools/stub_missing_staging.sh
+          chmod +x ./test_*.sh
+
+      - name: Run stub_missing_staging.sh
+        run: ./tools/stub_missing_staging.sh
+
+      - name: Run all test_*.sh scripts
+        run: |
+          for test_script in ./test_*.sh; do
+            if [ -x "$test_script" ]; then
+              echo "Running $test_script"
+              bash "$test_script"
+            else
+              echo "Skipping $test_script (not executable)"
+            fi
+          done

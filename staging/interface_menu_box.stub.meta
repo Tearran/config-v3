@@ -1,0 +1,65 @@
+# Template for Armbian ConfigNG module and helper metadata.
+# - For main modules: Use [<function_name>] as the section header.
+# - For helpers: Use [_<helper_function_name>] as the section header (uncomment and replace).
+#
+# Fill in all fields as appropriate. Use <value or false> for boolean or optional fields.
+
+# Section: Unique function name for this module, used for search, parsing, and reference in scripts and UI.
+[<function_name>]
+
+# (For helpers only, uncomment and use this header instead of the above)
+# Section: Helper function name, used for search, parsing, and reference in scripts.
+# Prefix helpers with an underscore (_) to distinguish from main modules.
+#[<_helper_function_name>]
+
+# Short description for this module or helper.
+# Used for parsing, sorting, searching, help messages, documentation, manuals, and throughout the UI/UX.
+# Example: "Manage user accounts"
+description=<short module description>
+
+# Extended description; set to 'false' if not used.
+# If provided, can be used as an "about" or "warning" message in the UI (e.g., infobox, yes/no dialog).
+# May also be used as a footer or additional context in documentation (README.md, man pages, etc.).
+extend_disc=<extended description or false>
+
+# Indicates if extra documentation is available.
+# If 'false', extra markdown is not included.
+# If 'true', links to additional documentation for inclusion in README.md, man pages, etc.
+documents=<true|false>
+
+# Arguments or options accepted by this function/module.
+# Used for input validation, help text, and UI option selectors.
+# Example: "<option 1> <option 2> <option etc.>"
+options=<string or example options>
+
+# Logical parent group; used to organize modules in the UI and for script-based grouping or filtering.
+# Example: "framework", "system", "software", "network", "localisation"
+parent=<parent group>
+
+# Subgroup within the parent group, for advanced categorization, structuring, parsing, sorting, and searching.
+# Example: "helpers", "managers", etc.
+group=<subgroup>
+
+# GitHub username of the primary contributor; may be used for module authorship.
+contributor=<github_username>
+
+# Boolean: 'true' if the contributor is also the module maintainer.
+# 'false' if the contributor is not the maintainer.
+# Used for project metadata and contributor documentation listings.
+maintainer=<true|false>
+
+# List of supported architectures (space-separated).
+# Example: "arm64 armhf x86-64"
+arch=arm64 armhf x86-64
+
+# List of required operating systems (space-separated, case sensitive).
+# Example: "Debian Ubuntu Armbian"
+require_os=Debian Ubuntu Armbian
+
+# Minimum kernel version required (string comparison).
+# Example: "5.15+"
+require_kernel=5.15+
+
+# Port number used by this module, if applicable; otherwise set to 'false'.
+# Referenced for network configuration, parsing, sorting, searching, and service status checks.
+port=<port_number|false>
