@@ -22,7 +22,7 @@ set -euo pipefail
 declare -A module_options
 
 if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
-	echo "WARNING: This is a stub test for sanitize_die."
+	echo "WARNING: This is a stub test for $mod_base.."
 	echo "Replace this stub with actual tests."
 	exit 1
 fi
