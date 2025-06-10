@@ -4,12 +4,12 @@
 function _about_interface_yes_no_box() {
 	cat <<EOF
 Usage: interface_yes_no <message> <callback_function>
-  <message>           Message to show in the Yes/No dialog.
-  <callback_function> Function to call with result ("No" if cancelled).
-  help                Show this message.
+	<message>           Message to show in the Yes/No dialog.
+	<callback_function> Function to call with result ("No" if cancelled).
+	help                Show this message.
 
 Example:
-  interface_yes_no "Are you sure?" _process_yes_no
+	interface_yes_no "Are you sure?" _process_yes_no
 EOF
 }
 
