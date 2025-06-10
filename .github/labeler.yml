@@ -35,8 +35,3 @@
 "Documentation":
 - changed-files:
   - any-glob-to-any-file: '**/*.md'
-
-"Review Staging":
-- all:
-  - review-staging:
-    - any-glob-to-any-file: ['staging/*']
