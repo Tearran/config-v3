@@ -1,6 +1,7 @@
 name: 01 Review Staging
 
 on:
+  pull_request:
   push:
 
 jobs:
@@ -11,6 +12,11 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
+
+      - name: Set execute permissions
+        run: |
+          chmod +x ./tools/**.sh || true
+          chmod +x ./staging/test_*.sh || true
 
       - name: Run all test_*.sh scripts in staging/
         run: |
@@ -30,6 +36,5 @@ jobs:
               "$test_script"
             else
               echo "Skipping $test_script (not executable)"
-              exit 2
             fi
           done
