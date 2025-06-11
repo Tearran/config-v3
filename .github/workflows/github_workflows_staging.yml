@@ -33,8 +33,13 @@ jobs:
 
       - name: Run all test_*.sh scripts in staging/
         run: |
-          for test_script in ./staging/test_*.sh; do
-            shopt -s nullglob
+          shopt -s nullglob
+          test_scripts=(./staging/test_*.sh)
+          if [ ${#test_scripts[@]} -eq 0 ]; then
+            echo "No staging test scripts found – skipping."
+            exit 0
+          fi
+          for test_script in "${test_scripts[@]}"; do
             if [ -x "$test_script" ]; then
               echo "Running $test_script"
               "$test_script"
