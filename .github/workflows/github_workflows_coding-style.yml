@@ -1,4 +1,4 @@
-name: Coding style check
+name: 00 Coding style check
 
 on:
   pull_request:
