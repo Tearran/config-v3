@@ -10,18 +10,18 @@ jobs:
       - uses: actions/checkout@v4
 
       - name: Make setup and test scripts executable
-        run: chmod +x ./tools/*.sh ./tests/*.sh
+        run: chmod +x ${{ github.workspace }}/tools/*.sh ${{ github.workspace }}/tests/*.sh
 
       - name: Run assemble_src.sh
-        run: ./tools/lib_assemble_src.sh
+        run: ${{ github.workspace }}/tools/lib_assemble_src.sh
 
       - name: Run assemble_array.sh
-        run: ./tools/lib_assemble_array.sh
+        run: ${{ github.workspace }}/tools/lib_assemble_array.sh
 
-      - name: Run all test scripts in ./tests
+      - name: Run all test scripts in ${{ github.workspace }}/tests
         run: |
           set -e
-          for script in ./tests/*; do
+          for script in ${{ github.workspace }}/tests/*; do
             # Skip the setup scripts to avoid running them again
             case "$script" in
               *assemble_src.sh|*assemble_array.sh) continue ;;
