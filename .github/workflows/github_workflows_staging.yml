@@ -15,8 +15,8 @@ on:
       - '**.sh'
 
 jobs:
-  stub-and-test:
-    name: "Test and stub missing"
+  test-or-stub:
+    name: "Test or stub missing file"
     runs-on: ubuntu-latest
 
     steps:
