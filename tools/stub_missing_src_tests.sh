@@ -14,7 +14,7 @@ for module in "$SRC_DIR"/*.sh; do
 
 	# Check for any test (real or stub)
 	if [[ ! -e "$test_file" && ! -e "$stub_file" ]]; then
-       		cat > "$stub_file" <<EOF
+		cat > "$stub_file" <<EOF
 #!/usr/bin/env bash
 # STUB TEST for test_${mod_base}. Replace with real tests.
 
@@ -27,7 +27,7 @@ if [[ "\${BASH_SOURCE[0]}" == "\${0}" ]]; then
 fi
 
 EOF
-        	chmod +x "$stub_file"
-        	echo "Created stub: $stub_file"
-    	fi
+		chmod +x "$stub_file"
+		echo "Created stub: $stub_file"
+	fi
 done
