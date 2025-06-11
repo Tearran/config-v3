@@ -1,6 +1,5 @@
 #!/usr/bin/env bash
 # STUB TEST for test_checkpoint. Replace with real tests.
-
 set -euo pipefail
 
 if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
@@ -8,4 +7,3 @@ if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
 	echo "Replace this stub with actual tests."
 	exit 1
 fi
-
