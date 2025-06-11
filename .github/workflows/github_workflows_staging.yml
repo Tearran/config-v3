@@ -1,4 +1,4 @@
-name: 02 Review Staging
+name: 00 Review Staging
 
 on:
   push:
@@ -26,7 +26,7 @@ jobs:
       - name: Set execute permissions
         run: |
           chmod +x ./tools/stub_missing_staging.sh
-          chmod +x ./staging/test_*.sh
+          chmod +x ./staging/test_*.sh || true
 
       - name: Run stub_missing_staging.sh
         run: ./tools/stub_missing_staging.sh
@@ -34,6 +34,7 @@ jobs:
       - name: Run all test_*.sh scripts in staging/
         run: |
           for test_script in ./staging/test_*.sh; do
+            shopt -s nullglob
             if [ -x "$test_script" ]; then
               echo "Running $test_script"
               "$test_script"
