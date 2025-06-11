@@ -1,8 +1,10 @@
-name: Ensure Copilot Review on PR
+name: Check for Copilot Review
 
-on:
-  pull_request:
-    types: [opened, synchronize, reopened]
+on:  
+  pull_request:  
+    types: [opened, synchronize, reopened]  
+  pull_request_review:  
+    types: [submitted]
 
 jobs:
   copilot-review-check:
@@ -22,7 +24,7 @@ jobs:
               review => review.user && review.user.login === 'github-copilot[bot]'
             );
             if (!copilotReviewed) {
-              core.setFailed('Copilot has not reviewed this PR yet.');
+              core.setFailed('Copilot review is missing for this PR.');
             } else {
-              core.info('Copilot review found.');
+              core.info('Copilot review detected.');
             }
