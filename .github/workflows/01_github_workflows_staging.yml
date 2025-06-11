@@ -30,5 +30,6 @@ jobs:
               "$test_script"
             else
               echo "Skipping $test_script (not executable)"
+              exit 2
             fi
           done
