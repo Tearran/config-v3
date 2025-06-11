@@ -1,0 +1,50 @@
+name: 00 Review Staging
+
+on:
+  push:
+    paths:
+      - 'tools/stub_missing_staging.sh'
+      - 'staging/test_*.sh'
+      - '.github/workflows/test-stubs.yml'
+      - '**.sh'
+  pull_request:
+    paths:
+      - 'tools/stub_missing_staging.sh'
+      - 'staging/test_*.sh'
+      - '.github/workflows/test-stubs.yml'
+      - '**.sh'
+
+jobs:
+  test-or-stub:
+    name: "Test or stub missing file"
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set execute permissions
+        run: |
+          chmod +x ./tools/stub_missing_staging.sh
+          chmod +x ./staging/test_*.sh || true
+
+      - name: Run all test_*.sh scripts in staging/
+        run: |
+          shopt -s nullglob
+          test_scripts=(./staging/test_*.sh)
+          if [ ${#test_scripts[@]} -eq 0 ]; then
+            echo "No staging test scripts found – skipping."
+            exit 0
+          else
+            ./tools/stub_missing_staging.sh
+            echo "Missing module files added stub"
+            exit 1
+          fi
+          for test_script in "${test_scripts[@]}"; do
+            if [ -x "$test_script" ]; then
+              echo "Running $test_script"
+              "$test_script"
+            else
+              echo "Skipping $test_script (not executable)"
+            fi
+          done
