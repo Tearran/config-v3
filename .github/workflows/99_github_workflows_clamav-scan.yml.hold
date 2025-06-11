@@ -1,12 +1,8 @@
-name: ClamAV Scan
+name: 99 ClamAV Scan
 
 on:
   push:
-    paths:
-      - '**.sh'
   pull_request:
-    paths:
-      - '**.sh'
 
 jobs:
   clamav:

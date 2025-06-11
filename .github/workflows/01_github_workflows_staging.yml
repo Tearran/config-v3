@@ -1,18 +1,7 @@
 name: 01 Review Staging
 
 on:
-  push:
-    paths:
-      - 'tools/stub_missing_staging.sh'
-      - 'staging/test_*.sh'
-      - '.github/workflows/test-stubs.yml'
-      - '**.sh'
   pull_request:
-    paths:
-      - 'tools/stub_missing_staging.sh'
-      - 'staging/test_*.sh'
-      - '.github/workflows/test-stubs.yml'
-      - '**.sh'
 
 jobs:
   test-or-stub:
@@ -25,7 +14,7 @@ jobs:
 
       - name: Set execute permissions
         run: |
-          chmod +x ./tools/stub_missing_staging.sh
+          chmod +x ./tools/staging_stub_missing.sh
           chmod +x ./staging/test_*.sh || true
 
       - name: Run all test_*.sh scripts in staging/
@@ -36,7 +25,7 @@ jobs:
             echo "No staging test scripts found – skipping."
             exit 0
           else
-            ./tools/stub_missing_staging.sh
+            ./tools/staging_stub_missing.sh
             echo "Missing module files added stub"
             exit 0
           fi
