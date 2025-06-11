@@ -1,7 +1,6 @@
 #!/usr/bin/env bash
 # Template for framework variables in entrypoint binaries
 
-
 SCRIPT_PATH="${BASH_SOURCE[0]}"
 SCRIPT_NAME="$(basename "${BASH_SOURCE[0]}")"
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
@@ -18,4 +17,3 @@ _unset_paths() {
 	unset ROOT
 	unset TOOLS_DIR
 }
-
