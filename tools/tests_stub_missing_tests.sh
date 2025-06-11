@@ -14,6 +14,8 @@ for module in "$SRC_DIR"/*.sh; do
 
 	# Check for any test (real or stub)
 	if [[ ! -e "$test_file" && ! -e "$stub_file" ]]; then
+
+	# TODO cahng hard code to copy  ./templates/staging_scaffold/*.* > ./staging
 		cat > "$stub_file" <<EOF
 #!/usr/bin/env bash
 # STUB TEST for test_${mod_base}. Replace with real tests.

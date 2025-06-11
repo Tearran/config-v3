@@ -11,7 +11,9 @@ The `staging/` directory is an isolated workspace for proposed new modules and c
 ### Workflow
 
 - Each helper module must have its own executable test script (`test_<name>.sh`).
-- The CI workflow `.github/workflows/01_github_workflows_staging.yml` enforces the presence of executable tests. If missing, it suggests using `staging_stub_missing_meta_tests.sh` as a template for a new test script.
+- If no executable tests are found, CI calls the stub script
+  `tools/tests_stub_missing_tests.sh` (see examples in
+  `templates/staging_scaffold/`) which prints guidance and fails the job.
 - **Nothing in `staging/` is ever installed or included in Armbian image builds.**
 
 **Note:** Use the provided stub script as a starting point for any new module or helper added to `staging/`.
