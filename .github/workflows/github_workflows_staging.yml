@@ -28,9 +28,6 @@ jobs:
           chmod +x ./tools/stub_missing_staging.sh
           chmod +x ./staging/test_*.sh || true
 
-      - name: Run stub_missing_staging.sh
-        run: ./tools/stub_missing_staging.sh
-
       - name: Run all test_*.sh scripts in staging/
         run: |
           shopt -s nullglob
@@ -38,6 +35,10 @@ jobs:
           if [ ${#test_scripts[@]} -eq 0 ]; then
             echo "No staging test scripts found – skipping."
             exit 0
+          else
+            ./tools/stub_missing_staging.sh
+            echo "Missing module files added stub"
+            exit 1
           fi
           for test_script in "${test_scripts[@]}"; do
             if [ -x "$test_script" ]; then
