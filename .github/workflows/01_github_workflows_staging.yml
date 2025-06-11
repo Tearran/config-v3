@@ -20,7 +20,7 @@ jobs:
       - name: Run tests or stub
         run: |
           shopt -s nullglob
-          test_scripts=(${{ github.workspace }}/staging/test_*.sh)
+          test_scripts=( ${{ github.workspace }}/staging/test_*.sh )
           if [ ${#test_scripts[@]} -eq 0 ]; then
             echo "No test_*.sh scripts found in ${{ github.workspace }}/staging."
             echo "Running /home/tearran/config-v3/tools/staging_stub_missing_meta_tests.sh..."

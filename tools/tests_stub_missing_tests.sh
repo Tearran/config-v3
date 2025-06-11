@@ -20,7 +20,7 @@ for module in "$SRC_DIR"/*.sh; do
 
 set -euo pipefail
 
-if [[ "\${BASH_SOURCE[0]}" == "\${0}" ]]; then
+if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
 	echo "WARNING: This is a stub test for test_${mod_base}."
 	echo "Replace this stub with actual tests."
 	exit 1
