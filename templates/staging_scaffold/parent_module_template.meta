@@ -1,0 +1,32 @@
+# Armbian ConfigNG module metadata
+# Section headers: [function_name] for modules, [_helper_name] for helpers
+
+[example_function]
+
+description=Manage user accounts # Short description for help, UI, docs
+extend_disc=false                # Extended description or false
+documents=true                   # true if extra markdown/docs exist, false otherwise
+options="add delete list"        # Arguments or options accepted by this module
+parent=system                    # Logical parent group for UI and grouping
+group=managers                   # Subgroup for advanced categorization
+contributor=tearran              # GitHub username of primary contributor
+maintainer=true                  # true if contributor is maintainer, else false
+arch="arm64 armhf x86-64"        # Supported architectures (space-separated)
+require_os="Debian Ubuntu"       # Required OS (space-separated, case-sensitive)
+require_kernel=5.15+             # Minimum kernel version required
+port=8080                        # Port number used, or false
+
+# Example helper section
+[_example_helper]
+description=Helper for user validation   # Short description for helper
+extend_disc=false                       # Extended description or false
+documents=false                         # true if extra docs, else false
+options="username"                      # Arguments accepted by helper
+parent=system                           # Logical parent group
+group=helpers                           # Subgroup
+contributor=tearran                     # GitHub username
+maintainer=false                        # Maintainer status
+arch="all"                              # Supported architectures
+require_os="all"                        # Required OS
+require_kernel=0                        # Kernel version required
+port=false                              # No port required

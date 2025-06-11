@@ -14,10 +14,10 @@ jobs:
         run: chmod +x ./tools/*.sh ./tests/*.sh
 
       - name: Run assemble_src.sh
-        run: ./tools/assemble_src.sh
+        run: ./tools/lib_assemble_src.sh
 
       - name: Run assemble_array.sh
-        run: ./tools/assemble_array.sh
+        run: ./tools/lib_assemble_array.sh
 
       - name: Run all test scripts in ./tests
         run: |
