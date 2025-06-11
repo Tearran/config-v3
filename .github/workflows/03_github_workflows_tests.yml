@@ -2,11 +2,7 @@ name: 03 Run Tests Scripts
 
 on:
   push:
-    paths:
-      - 'tests/**'
   pull_request:
-    paths:
-      - 'tests/**'
 
 jobs:
   run-tests:
