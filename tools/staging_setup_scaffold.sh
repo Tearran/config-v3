@@ -42,12 +42,14 @@ EOF
 # Output .sh module template inside ./staging
 cat > "${STAGING_DIR}/${MODULE}.sh" <<EOF
 #!/bin/bash
-# ${MODULE}.sh - Armbian ConfigNG module
+# ${MODULE}.sh - Armbian Config V3 module
 
 ${MODULE}() {
 	# TODO: implement module logic
 	echo "Module '${MODULE}' called"
 }
 EOF
+
+chmod +x "${STAGING_DIR}/${MODULE}.sh"
 
 echo "Generated: ${STAGING_DIR}/${MODULE}.meta and ${STAGING_DIR}/${MODULE}.sh"
