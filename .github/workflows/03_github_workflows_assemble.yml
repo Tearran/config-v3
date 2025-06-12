@@ -1,4 +1,4 @@
-name: 03 Run Tests Scripts
+name: 03 Run assemble Scripts
 
 on:
   workflow_dispatch:
@@ -15,7 +15,7 @@ jobs:
       - uses: actions/checkout@v4
 
       - name: Make setup and test scripts executable
-        run: chmod +x ${{ github.workspace }}/tools/*.sh ${{ github.workspace }}/tests/*.sh
+        run: chmod +x ${{ github.workspace }}/tools/*.sh
 
       - name: Run assemble_src.sh
         run: ${{ github.workspace }}/tools/lib_assemble_src.sh

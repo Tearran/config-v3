@@ -8,15 +8,15 @@ set -e
 STAGING_DIR="./staging"
 
 if [[ -z "$1" ]]; then
-  echo "Usage: $0 <module_name>"
-  exit 1
+	echo "Usage: $0 <module_name>"
+	exit 1
 fi
 
 MODULE="$1"
 
 # Ensure ./staging exists
 if [[ ! -d "$STAGING_DIR" ]]; then
-  mkdir -p "$STAGING_DIR"
+	mkdir -p "$STAGING_DIR"
 fi
 
 # Output .meta template inside ./staging
@@ -42,12 +42,14 @@ EOF
 # Output .sh module template inside ./staging
 cat > "${STAGING_DIR}/${MODULE}.sh" <<EOF
 #!/bin/bash
-# ${MODULE}.sh - Armbian ConfigNG module
+# ${MODULE}.sh - Armbian Config V3 module
 
 ${MODULE}() {
-  # TODO: implement module logic
-  echo "Module '${MODULE}' called"
+	# TODO: implement module logic
+	echo "Module '${MODULE}' called"
 }
 EOF
+
+chmod +x "${STAGING_DIR}/${MODULE}.sh"
 
 echo "Generated: ${STAGING_DIR}/${MODULE}.meta and ${STAGING_DIR}/${MODULE}.sh"

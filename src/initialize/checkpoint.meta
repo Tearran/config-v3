@@ -1,6 +1,6 @@
 [checkpoint]
 feature=checkpoint
-description=Lightweight checkpoint and timing framework for Armbian ConfigNG modules.
+description=Lightweight checkpoint and timing framework for Armbian Config V3 modules.
 extend_disc=Provides timing, debugging, and progress checkpoint utilities for Bash modules. Supports debug timing, UX/UI marks, and elapsed time reporting for module development and diagnostics.
 documents=false
 options=debug help mark reset total
