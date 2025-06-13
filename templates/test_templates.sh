@@ -1,7 +1,6 @@
 #!/bin/bash
 # templates.sh - Armbian Config V3 module
 
-templates() {
-	# TODO: implement module logic
-	echo "Module 'templates' called"
-}
+if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
+	echo "place Holder
+fi

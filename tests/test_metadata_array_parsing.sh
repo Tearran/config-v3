@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-
+_testing() {
 if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
 	declare -A module_options
 	script_dir="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
@@ -11,3 +11,6 @@ if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
 	_metadata_md_table module_options
 	(( ${#module_options[@]} > 0 )) && exit 0 || exit 3
 fi
+}
+
+_testing "@"
